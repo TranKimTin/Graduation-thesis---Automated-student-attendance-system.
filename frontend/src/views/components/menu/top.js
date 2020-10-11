@@ -1,36 +1,36 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
-import {Menu, Icon} from "semantic-ui-react";
-import {NavLink} from 'react-router-dom';
-import Cookies from 'js-cookie';
+import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { Menu, Icon } from "semantic-ui-react";
+import { NavLink } from 'react-router-dom';
 
 import MenuAction from '../../../state/ducks/menu/actions';
 class TopMenu extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {};
     }
 
-    handleItemClick = (e, {name}) => {
+    handleItemClick = (e, { name }) => {
         this.props.dispatch(MenuAction.handleItemClick(name));
     };
 
-    triggerLogin = (e, {name}) => {
+    triggerLogin = (e, { name }) => {
         this.props.dispatch(MenuAction.triggerLogin(name, true));
     };
 
-    toggleSideBar = (e, {name}) => {
+    toggleSideBar = (e, { name }) => {
         this.props.dispatch(MenuAction.toggleSideBar(true));
     };
 
     render() {
-        const {top_menu_active} = this.props;
+        const { top_menu_active } = this.props;
         return (
             <div>
                 <Menu id='main_top_menu' fixed="top">
                     <Menu.Item
                         onClick={this.toggleSideBar}>
-                        <Icon name="sidebar"/>
+                        <Icon name="sidebar" />
                     </Menu.Item>
                     <Menu.Item
                         name='category'
@@ -38,7 +38,7 @@ class TopMenu extends Component {
                         onClick={this.handleItemClick}
                         as={NavLink}
                         exact
-                        to={'/category'}
+                        to={'/category/student'}
                     >Danh mục</Menu.Item>
                     <Menu.Item
                         name='config'

@@ -1,6 +1,4 @@
 import type from './types';
-import api from "../menu/api";
-import {toastr} from "react-redux-toastr";
 
 const handleItemClick = (name) => ({type: type.TOP_MENU, name});
 const handleItemSideBarClick = (name) => ({type: type.ACTIVE_ITEM_SIDEBAR, name});

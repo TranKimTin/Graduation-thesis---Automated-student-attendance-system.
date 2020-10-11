@@ -7,10 +7,11 @@ function loading() {
 }
 
 const Category = Loadable({
-    loader: () => import('./components/test/test'),
+    loader: () => import('./components/category/student'),
     loading: loading
 });
 
 export default [
-    {path: '/category', key: 'home', component: Category, exact: true},
+    {path: '/', key: 'home', component: Category, exact: true},
+    {path: '/category/student', key: 'home', component: Category, exact: true},
 ];
