@@ -11,6 +11,44 @@ const getClass = (params) => {
     };
 };
 
+const insertClass = (params) => {
+    return function (dispatch) {
+        dispatch({type: type.WAITTING_LOAD_DATA});
+        return api.insertClass(params)
+            .then(result => {
+                toastr.success("Thêm lớp thành công");
+                dispatch(getClass());
+            })
+            .catch(error => toastr.error(error.message));
+    };
+};
+
+const deleteClass = (params) => {
+    return function (dispatch) {
+        dispatch({type: type.WAITTING_LOAD_DATA});
+        return api.deleteClass(params)
+            .then(result => {
+                toastr.success("Xóa lớp thành công");
+                dispatch(getClass());
+            })
+            .catch(error => toastr.error(error.message));
+    };
+};
+
+const updateClass = (params) => {
+    return function (dispatch) {
+        dispatch({type: type.WAITTING_LOAD_DATA});
+        return api.updateClass(params)
+            .then(result => {
+                toastr.success("Sửa lớp thành công");
+                dispatch(getClass());
+            })
+            .catch(error => toastr.error(error.message));
+    };
+};
 export default {
-    getClass
+    getClass,
+    insertClass,
+    deleteClass,
+    updateClass
 };

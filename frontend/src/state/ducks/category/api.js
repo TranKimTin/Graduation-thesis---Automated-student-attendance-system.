@@ -15,6 +15,30 @@ function getClass(params = {}) {
     );
 }
 
+function insertClass(params = {}) {
+    let url = `${BACKEND_URL}/api/class`;
+    return axios.post(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function updateClass(params = {}) {
+    let url = `${BACKEND_URL}/api/class/${params.id}`;
+    return axios.put(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function deleteClass(params = {}) {
+    let url = `${BACKEND_URL}/api/class/${params.classCode}`;
+    return axios.delete(url).then(
+        result => checkResult(result)
+    );
+}
+
 export default {
-    getClass
+    getClass,
+    insertClass,
+    deleteClass,
+    updateClass
 };
