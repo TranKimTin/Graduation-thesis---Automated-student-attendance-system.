@@ -9,13 +9,13 @@ import routes from './routes';
 import {init as mysql_init} from './lib/mysql_connector';
 import response from './lib/middlewares/res';
 import {error404} from './lib/middlewares/error_handler';
+import path from 'path';
 
 global['config'] = config;
 //global['AppError'] = AppError;
 const app = express();
 
 mysql_init(config.mysql);
-
 app.disable('x-powered-by');
 app.set('trust proxy', true);
 app.use(cors({origin: true, credentials: true}));
