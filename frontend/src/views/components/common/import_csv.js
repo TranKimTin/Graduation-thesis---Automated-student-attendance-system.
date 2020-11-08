@@ -7,46 +7,55 @@ class FileReader extends Component {
     constructor() {
         super();
         this.state = {
-            csvfile: undefined,
             openModalInport: false,
+            data: [],
+            dataErr: [],
         };
         this.updateData = this.updateData.bind(this);
         this.importCSV = this.importCSV.bind(this);
     }
 
     handleChange = (event) => {
-        this.setState({
-            csvfile: event.target.files[0],
-        });
-    };
-
-    importCSV() {
-        const { csvfile } = this.state;
-        if (!csvfile) return toastr.error("Chưa chọn file");
-        if (!csvfile?.name?.includes("csv"))
-            return toastr.error("File phải có định dạng csv");
+        let csvfile = event.target.files[0];
         Papa.parse(csvfile, {
             complete: this.updateData,
             header: false,
         });
+    };
+
+    importCSV() {
+        let { data = [] } = this.state;
+        let { actionImport } = this.props;
+        if (data.length === 0) return toastr.error("File trống");
+        actionImport(data);
+        this.setState({openModalInport: false});
     }
 
     updateData(result) {
         let data = result.data;
-        let { field, actionImport } = this.props;
-        data = data.slice(1).map((item) => {
-            let obj = {};
-            for (let i = 0; i < field.length; i++) {
-                obj[field[i].code] = item[i];
-            }
-            return obj;
-        });
+        let { field = [] } = this.props;
+        let dataErr = data
+            .slice(1)
+            .map((item, index) =>
+                item.filter((x) => x !== "").length !== field.length
+                    ? index + 2
+                    : null
+            )
+            .filter((item) => item);
+        data = data
+            .slice(1)
+            .filter(
+                (item) => item.filter((x) => x !== "").length === field.length
+            );
         console.log(data);
-        actionImport(data);
+        this.setState({
+            data,
+            dataErr,
+        });
     }
 
     render() {
-        let { openModalInport } = this.state;
+        let { openModalInport, data, dataErr } = this.state;
         let { field = [] } = this.props;
         return (
             <div>
@@ -54,7 +63,7 @@ class FileReader extends Component {
                     content="Import"
                     primary
                     onClick={() => {
-                        this.setState({ openModalInport: true });
+                        this.setState({ openModalInport: true, data: [], dataErr:[] });
                     }}
                 />
                 <Modal
@@ -63,7 +72,6 @@ class FileReader extends Component {
                     onClose={() => {
                         this.setState({
                             openModalInport: false,
-                            csvfile: undefined,
                         });
                     }}
                     size="small"
@@ -79,22 +87,28 @@ class FileReader extends Component {
                             <div>Thứ tự cột như sau: </div>
                             {field.map((item, index) => (
                                 <div style={{ marginLeft: 10 }}>
-                                    {String.fromCharCode(index + 65)} :{" "}
-                                    {item.name}
+                                    {String.fromCharCode(index + 65)} : {item}
                                 </div>
                             ))}
                             <br />
-                            <input
-                                className="csv-input"
-                                type="file"
-                                accept=".csv"
-                                ref={(input) => {
-                                    this.filesInput = input;
-                                }}
-                                name="file"
-                                placeholder={null}
-                                onChange={this.handleChange}
-                            />
+                            <div>
+                                <input
+                                    className="csv-input"
+                                    type="file"
+                                    accept=".csv"
+                                    ref={(input) => {
+                                        this.filesInput = input;
+                                    }}
+                                    name="file"
+                                    placeholder={null}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+                            <br />
+                            <div>{data.length} bản ghi hợp lệ sẽ được import</div>
+                            <div>
+                                {dataErr.length} bản ghi sai định dạng tại dòng: {dataErr.join(', ')}
+                            </div>
                         </div>
                     </Modal.Content>
                     <Modal.Actions>
@@ -103,7 +117,6 @@ class FileReader extends Component {
                             onClick={() => {
                                 this.setState({
                                     openModalInport: false,
-                                    csvfile: undefined,
                                 });
                             }}
                         >

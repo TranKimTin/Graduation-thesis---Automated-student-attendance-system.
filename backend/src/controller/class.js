@@ -43,7 +43,7 @@ export async function insertClass(req, res, next) {
         res.sendError({ code: error.code, message: error.message || undefined });
     }
 }
-
+    
 export async function updateClass(req, res, next) {
     try {
         let {body} = req;

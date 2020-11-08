@@ -1,5 +1,5 @@
-'use strict';
-import mysql from 'mysql';
+"use strict";
+import mysql from "mysql";
 
 let pool;
 
@@ -10,7 +10,7 @@ export function init(config) {
 
 export function getConnection() {
     return new Promise((resolve, reject) => {
-        if (!pool) return reject(new AppError('pool is not ready', 'E101'));
+        if (!pool) return reject(new AppError("pool is not ready", "E101"));
         pool.getConnection((err, connection) => {
             if (err) return reject(err);
             else resolve(connection);
@@ -18,7 +18,7 @@ export function getConnection() {
     });
 }
 
-export function query(query = '', params = {}) {
+export function query(query = "", params = {}) {
     return new Promise((resolve, reject) => {
         pool.query(query, params, (error, results, fields) => {
             if (error) return reject(error);
@@ -27,6 +27,7 @@ export function query(query = '', params = {}) {
         });
     });
 }
+
 
 export function query_transaction(connection, query, params) {
     return new Promise((resolve, reject) => {

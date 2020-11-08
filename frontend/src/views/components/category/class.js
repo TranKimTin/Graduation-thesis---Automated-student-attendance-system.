@@ -91,7 +91,7 @@ class Class extends Component {
         if (className.trim() === "") return toastr.error("Chưa nhập tên lớp!");
         if (classCode.trim() === "") return toastr.error("Chưa nhập mã lớp!");
 
-        if(type === 'new') dispatch(CategoryAction.insertClass({ className, classCode }));
+        if(type === 'new') dispatch(CategoryAction.insertClass([[className, classCode ]]));
         if(type === 'edit') dispatch(CategoryAction.updateClass({ className, classCode, id }));
         this.closeModal();
     }
@@ -105,7 +105,8 @@ class Class extends Component {
     }
 
     importClass(data){
-        console.log('import',data)
+        let {dispatch} = this.props;
+        dispatch(CategoryAction.insertClass(data));
     }
 
     render() {
@@ -127,7 +128,7 @@ class Class extends Component {
                         </Grid.Column>
                         <Grid.Column>
                             <ImportCSV 
-                                field={[{name: 'Mã lớp', code: 'class_code'}, {name: 'Tên lớp', code: 'class_name'}]}
+                                field={['Mã lớp', 'Tên lớp']}
                                 actionImport={this.importClass}
                                 />
                         </Grid.Column>

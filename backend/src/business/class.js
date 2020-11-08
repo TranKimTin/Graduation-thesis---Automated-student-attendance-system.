@@ -18,8 +18,7 @@ export async function getClass() {
 }
 
 export async function insertClass(args) {
-    let {className, classCode} = args;
-    return await mysql.query(`INSERT INTO class(class_name, class_code) VALUES (?,?)`,[className, classCode])
+    return await mysql.query(`INSERT INTO class(class_name, class_code) VALUES ?`,[args])
 }
 
 export async function updateClass(args) {
