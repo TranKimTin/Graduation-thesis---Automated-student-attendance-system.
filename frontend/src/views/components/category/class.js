@@ -10,7 +10,7 @@ import {
     Input,
 } from "semantic-ui-react";
 import CustomSearch from "../common/search";
-import ImportCSV from "../common/import_csv";
+import ImportCSV from "../common/modal_import_csv";
 import CategoryAction from "../../../state/ducks/category/actions";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
