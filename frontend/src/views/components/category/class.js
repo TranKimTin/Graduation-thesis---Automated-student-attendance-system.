@@ -10,6 +10,7 @@ import {
     Input,
 } from "semantic-ui-react";
 import CustomSearch from "../common/search";
+import ImportCSV from "../common/import_csv";
 import CategoryAction from "../../../state/ducks/category/actions";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
@@ -34,6 +35,7 @@ class Class extends Component {
         this.openModalDelete = this.openModalDelete.bind(this);
         this.deleteClass = this.deleteClass.bind(this);
         this.newClass = this.newClass.bind(this);
+        this.importClass = this.importClass.bind(this);
     }
 
     componentDidMount() {
@@ -86,11 +88,11 @@ class Class extends Component {
     handleSave() {
         let { dispatch } = this.props;
         let { className, classCode, id, type } = this.state;
-        if (className.trim() == "") return toastr.error("Chưa nhập tên lớp!");
-        if (classCode.trim() == "") return toastr.error("Chưa nhập mã lớp!");
+        if (className.trim() === "") return toastr.error("Chưa nhập tên lớp!");
+        if (classCode.trim() === "") return toastr.error("Chưa nhập mã lớp!");
 
-        if(type == 'new') dispatch(CategoryAction.insertClass({ className, classCode }));
-        if(type == 'edit') dispatch(CategoryAction.updateClass({ className, classCode, id }));
+        if(type === 'new') dispatch(CategoryAction.insertClass({ className, classCode }));
+        if(type === 'edit') dispatch(CategoryAction.updateClass({ className, classCode, id }));
         this.closeModal();
     }
 
@@ -100,6 +102,10 @@ class Class extends Component {
         if (!classCodeDelete) return toastr.error("Mã lớp không hợp lệ");
         dispatch(CategoryAction.deleteClass({ classCode: classCodeDelete }));
         this.closeModalDelete();
+    }
+
+    importClass(data){
+        console.log('import',data)
     }
 
     render() {
@@ -120,7 +126,10 @@ class Class extends Component {
                             />
                         </Grid.Column>
                         <Grid.Column>
-                            <Button content="Import" primary />
+                            <ImportCSV 
+                                field={[{name: 'Mã lớp', code: 'class_code'}, {name: 'Tên lớp', code: 'class_name'}]}
+                                actionImport={this.importClass}
+                                />
                         </Grid.Column>
                         <Grid.Column width={11}> </Grid.Column>
                         <Grid.Column width={3}>
