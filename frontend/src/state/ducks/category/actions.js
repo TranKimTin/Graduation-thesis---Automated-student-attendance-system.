@@ -46,9 +46,30 @@ const updateClass = (params) => {
             .catch(error => toastr.error(error.message));
     };
 };
+
+const openModal = (params) => {
+    return function (dispatch) {
+        return dispatch({type:type.OPEN_MODAL});
+    };
+};
+
+const closeModal = (params) => {
+    return function (dispatch) {
+        return dispatch({type:type.CLOSE_MODAL});
+    };
+};
+
+const changeValue = (params) => {
+    return function (dispatch) {
+        return dispatch({type:type.CHANGE_VALUE, data: params});
+    };
+};
 export default {
     getClass,
     insertClass,
     deleteClass,
-    updateClass
+    updateClass,
+    openModal,
+    closeModal,
+    changeValue
 };

@@ -18,12 +18,11 @@ export async function getClass() {
 }
 
 export async function insertClass(args) {
-    return await mysql.query(`INSERT INTO class(class_name, class_code) VALUES ?`,[args])
+    return await mysql.query(`INSERT INTO class(class_code, class_name) VALUES ?`,[args])
 }
 
 export async function updateClass(args) {
-    let {classCode, className, id} = args;
-    return await mysql.query(`UPDATE class SET class_code = ?, class_name = ? WHERE id = ?`,[classCode, className, id])
+    return await mysql.query(`UPDATE class SET class_code = ?, class_name = ? WHERE id = ?`,args)
 }
 
 export async function deleteClass(args) {

@@ -475,3 +475,7 @@ body.animating.in.dimmable, body.dimmed.dimmable {
         stroke-dashoffset: -31px;
     }
 }
+
+.margin-5{
+    margin: 5px !important;
+}

@@ -8,7 +8,7 @@ routes.get('/class', Class.getClass);
 
 routes.post('/class', Class.insertClass);
 
-routes.put('/class/:id', Class.updateClass);
+routes.put('/class', Class.updateClass);
 
 routes.delete('/class/:classCode', Class.deleteClass);
 

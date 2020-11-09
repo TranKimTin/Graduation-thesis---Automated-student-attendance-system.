@@ -11,6 +11,7 @@ import {
 } from "semantic-ui-react";
 import CustomSearch from "../common/search";
 import ImportCSV from "../common/modal_import_csv";
+import ModalInsert from "../common/modal_insert";
 import CategoryAction from "../../../state/ducks/category/actions";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
@@ -19,23 +20,22 @@ class Class extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
             openDelete: false,
-            className: "",
-            classCode: "",
-            id: '',
+            id: "",
             classCodeDelete: "",
             titleModal: "",
-            type: 'new'
+            type: "new",
         };
-        this.closeModal = this.closeModal.bind(this);
         this.handleSave = this.handleSave.bind(this);
-        this.changeValue = this.changeValue.bind(this);
         this.closeModalDelete = this.closeModalDelete.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
         this.deleteClass = this.deleteClass.bind(this);
         this.newClass = this.newClass.bind(this);
         this.importClass = this.importClass.bind(this);
+        this.feild = [
+            { name: "Mã lớp", code: "class_code" },
+            { name: "Tên lớp", code: "class_name" },
+        ];
     }
 
     componentDidMount() {
@@ -44,38 +44,22 @@ class Class extends Component {
     }
 
     newClass(item) {
-        console.log(item);
         if (!item) {
             this.setState({
-                open: true,
-                className: "",
-                classCode: "",
-                id: '',
                 titleModal: "Thêm mới lớp",
-                type: 'new'
+                type: "new",
+                id: "",
             });
         } else {
             this.setState({
                 open: true,
-                className: item.class_name,
-                classCode: item.class_code,
                 id: item.id,
                 titleModal: "Sửa lớp",
-                type: 'edit'
+                type: "edit",
             });
         }
-    }
-
-    closeModal() {
-        this.setState({
-            open: false,
-        });
-    }
-
-    changeValue(e, data) {
-        this.setState({
-            [data.name]: data.value,
-        });
+        let { dispatch } = this.props;
+        dispatch(CategoryAction.openModal());
     }
 
     closeModalDelete() {
@@ -85,15 +69,16 @@ class Class extends Component {
         this.setState({ openDelete: true, classCodeDelete: classCode });
     }
 
-    handleSave() {
+    handleSave(data) {
         let { dispatch } = this.props;
-        let { className, classCode, id, type } = this.state;
-        if (className.trim() === "") return toastr.error("Chưa nhập tên lớp!");
-        if (classCode.trim() === "") return toastr.error("Chưa nhập mã lớp!");
-
-        if(type === 'new') dispatch(CategoryAction.insertClass([[className, classCode ]]));
-        if(type === 'edit') dispatch(CategoryAction.updateClass({ className, classCode, id }));
-        this.closeModal();
+        let {type, id} = this.state;
+        if(type === 'new'){
+            dispatch(CategoryAction.insertClass([data]));
+        }
+        if(type === 'edit'){
+            data.push(id);
+            dispatch(CategoryAction.updateClass(data));
+        }
     }
 
     deleteClass() {
@@ -104,14 +89,14 @@ class Class extends Component {
         this.closeModalDelete();
     }
 
-    importClass(data){
-        let {dispatch} = this.props;
+    importClass(data) {
+        let { dispatch } = this.props;
         dispatch(CategoryAction.insertClass(data));
     }
 
     render() {
         let { listClass } = this.props;
-        let { open, className, classCode, openDelete, titleModal } = this.state;
+        let { openDelete } = this.state;
         return (
             <Segment>
                 <Header> Danh sách Lớp </Header>
@@ -127,10 +112,10 @@ class Class extends Component {
                             />
                         </Grid.Column>
                         <Grid.Column>
-                            <ImportCSV 
-                                field={['Mã lớp', 'Tên lớp']}
+                            <ImportCSV
+                                field={["Mã lớp", "Tên lớp"]}
                                 actionImport={this.importClass}
-                                />
+                            />
                         </Grid.Column>
                         <Grid.Column width={11}> </Grid.Column>
                         <Grid.Column width={3}>
@@ -142,20 +127,19 @@ class Class extends Component {
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell> STT </Table.HeaderCell>
+                            <Table.HeaderCell> Action </Table.HeaderCell>
                             <Table.HeaderCell> Mã lớp </Table.HeaderCell>
                             <Table.HeaderCell> Tên lớp </Table.HeaderCell>
-                            <Table.HeaderCell> </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
                         {listClass.map((item, stt) => (
                             <Table.Row>
                                 <Table.Cell> {stt + 1} </Table.Cell>
-                                <Table.Cell> {item.class_code} </Table.Cell>
-                                <Table.Cell> {item.class_name} </Table.Cell>
                                 <Table.Cell>
+                                    <Input type="checkbox" className='margin-5'/>
                                     <Icon
-                                        className="icon-button"
+                                        className="margin-5 icon-button "
                                         name="pencil"
                                         color="blue"
                                         onClick={() => {
@@ -163,7 +147,7 @@ class Class extends Component {
                                         }}
                                     />
                                     <Icon
-                                        className="icon-button"
+                                        className="margin-5 icon-button "
                                         name="trash alternate"
                                         color="red"
                                         onClick={() => {
@@ -173,52 +157,13 @@ class Class extends Component {
                                         }}
                                     />
                                 </Table.Cell>
+                                <Table.Cell> {item.class_code} </Table.Cell>
+                                <Table.Cell> {item.class_name} </Table.Cell>
                             </Table.Row>
                         ))}
                     </Table.Body>
                 </Table>
-                <Modal
-                    closeIcon
-                    open={open}
-                    onClose={this.closeModal}
-                    size="small"
-                >
-                    <Header icon="group" content={titleModal} />
-                    <Modal.Content>
-                        <Grid>
-                            <Grid.Row>
-                                <Grid.Column width={16}>
-                                    <Input
-                                        label="Mã lớp"
-                                        value={classCode}
-                                        name="classCode"
-                                        fluid
-                                        onChange={this.changeValue}
-                                    />
-                                </Grid.Column>
-                            </Grid.Row>
-                            <Grid.Row>
-                                <Grid.Column width={16}>
-                                    <Input
-                                        label="Tên lớp"
-                                        value={className}
-                                        name="className"
-                                        onChange={this.changeValue}
-                                        fluid
-                                    />
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button color="red" onClick={this.closeModal}>
-                            <Icon name="remove" /> Hủy
-                        </Button>
-                        <Button color="green" onClick={this.handleSave}>
-                            <Icon name="checkmark" /> Lưu
-                        </Button>
-                    </Modal.Actions>
-                </Modal>
+                <ModalInsert handleSave={this.handleSave} feild={this.feild} />
                 <Modal
                     closeIcon
                     open={openDelete}
