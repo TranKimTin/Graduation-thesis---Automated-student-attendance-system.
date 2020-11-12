@@ -16,8 +16,14 @@ const Class = Loadable({
     loading: loading
 });
 
+const Teacher = Loadable({
+    loader: () => import('./components/category/teacher'),
+    loading: loading
+});
+
 export default [
     {path: '/', key: 'home', component: Category, exact: true},
     {path: '/category/student', key: 'home', component: Category, exact: true},
     {path: '/category/class', key: 'class', component: Class, exact: true},
+    {path: '/category/teacher', key: 'teacher', component: Teacher, exact: true},
 ];

@@ -3,14 +3,17 @@ import ErrorCode from '../consts/error_codes';
 
 export default function response() {
     return function (req, res, next) {
-        res.sendJson = function ({message, data, paging}) {
+        res.sendJson = function ({ message, data, paging, options }) {
             let tmp = {
                 status: 'success',
                 message: message || 'success',
-                data: data || {},
+                data: data || {}
             };
             if (paging) {
                 tmp.paging = paging || {};
+            }
+            if (options) {
+                tmp.options = options || {}
             }
             res.statusCode = 200;
             res.json(tmp);
@@ -24,7 +27,7 @@ export default function response() {
          * @param data
          * @param messFormat
          */
-        res.sendError = function ({code, message, httpStatusCode, data, messFormat}) {
+        res.sendError = function ({ code, message, httpStatusCode, data, messFormat }) {
             if (!code) code = '400';
             message = message || ErrorCode[code];
 

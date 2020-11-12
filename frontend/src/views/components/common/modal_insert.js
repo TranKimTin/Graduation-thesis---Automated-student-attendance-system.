@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Header, Button, Icon, Grid, Input } from "semantic-ui-react";
+import { Modal, Header, Button, Icon, Grid, Input, Dropdown } from "semantic-ui-react";
 import { connect } from "react-redux";
 import CategoryAction from "../../../state/ducks/category/actions";
 import { toastr } from "react-redux-toastr";
@@ -22,7 +22,7 @@ class ModalInsert extends Component {
         let { handleSave, feild = [], dataInsert = {} } = this.props;
         let data = [];
         for (let item of feild) {
-            if(!dataInsert[item.code] || dataInsert[item.code].trim()==='') return toastr.error(`${item.name} không hợp lệ`);
+            if (!dataInsert[item.code] || dataInsert[item.code].trim() === '') return toastr.error(`${item.name} không hợp lệ`);
             data.push(dataInsert[item.code]);
         }
         handleSave(data);
@@ -31,15 +31,20 @@ class ModalInsert extends Component {
 
     changeValue(e, data) {
         let { dispatch } = this.props;
-        dispatch(
-            CategoryAction.changeValue({ name: data.name, value: data.value })
-        );
+        dispatch(CategoryAction.changeValue({ name: data.name, value: data.value }));
     }
 
     render() {
-        let { open = false, feild = [], titleModal, dataInsert } = this.props;
+        let { open = false, feild = [], titleModal, dataInsert, handleNew } = this.props;
         return (
             <div>
+                <Button
+                    content="Thêm"
+                    primary
+                    onClick={() => {
+                        handleNew();
+                    }}
+                />
                 <Modal
                     closeIcon
                     open={open}
@@ -52,13 +57,28 @@ class ModalInsert extends Component {
                             {feild.map((item) => (
                                 <Grid.Row>
                                     <Grid.Column width={16}>
-                                        <Input
-                                            label={item.name}
-                                            value={dataInsert[item.code]}
-                                            name={item.code}
-                                            onChange={this.changeValue}
-                                            fluid
-                                        />
+                                        <label><strong>{item.name}</strong></label>
+                                        {!item.options &&
+                                            <Input
+                                                value={dataInsert[item.code]}
+                                                name={item.code}
+                                                onChange={this.changeValue}
+                                                fluid
+                                                type={item.type || 'text'}
+                                            />
+                                        }
+                                        {item.options &&
+                                            <Dropdown
+                                                options={item.options}
+                                                placeholder={item.name}
+                                                value={dataInsert[item.code]}
+                                                name={item.code}
+                                                onChange={this.changeValue}
+                                                fluid
+                                                search
+                                                selection
+                                            />
+                                        }
                                     </Grid.Column>
                                 </Grid.Row>
                             ))}

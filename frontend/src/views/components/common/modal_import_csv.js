@@ -4,8 +4,8 @@ import { Modal, Header, Button, Icon } from "semantic-ui-react";
 import { toastr } from "react-redux-toastr";
 
 class FileReader extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             openModalInport: false,
             data: [],
@@ -32,6 +32,7 @@ class FileReader extends Component {
     }
 
     updateData(result) {
+        console.log(result)
         let data = result.data;
         let { field = [] } = this.props;
         let dataErr = data

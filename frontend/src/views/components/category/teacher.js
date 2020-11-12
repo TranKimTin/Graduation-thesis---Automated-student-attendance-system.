@@ -16,23 +16,24 @@ import PageSize from "../common/page_size";
 import CategoryAction from "../../../state/ducks/category/actions";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
+import moment from 'moment';
 
-class Class extends Component {
+class Teacher extends Component {
     constructor(props) {
         super(props);
         this.state = {
             id: "",
-            classCodeDelete: '',
-            arrayClassCodeDelete: [],
+            teacherCodeDelete: '',
+            arrayTeacherCodeDelete: [],
             titleModal: "",
             type: "new",
             search: ''
         };
         this.handleSave = this.handleSave.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
-        this.deleteClass = this.deleteClass.bind(this);
-        this.newClass = this.newClass.bind(this);
-        this.importClass = this.importClass.bind(this);
+        this.deleteTeacher = this.deleteTeacher.bind(this);
+        this.newTeacher = this.newTeacher.bind(this);
+        this.importTeacher = this.importTeacher.bind(this);
         this.onPageChange = this.onPageChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.onPageSizeChange = this.onPageSizeChange.bind(this);
@@ -43,13 +44,13 @@ class Class extends Component {
 
     componentDidMount() {
         let { dispatch } = this.props;
-        dispatch(CategoryAction.getClass());
+        dispatch(CategoryAction.getTeacher());
     }
 
-    newClass(item) {
+    newTeacher(item) {
         if (!item) {
             this.setState({
-                titleModal: "Thêm mới lớp",
+                titleModal: "Thêm mới giảng viên",
                 type: "new",
                 id: "",
             });
@@ -57,46 +58,47 @@ class Class extends Component {
             this.setState({
                 open: true,
                 id: item.id,
-                titleModal: "Sửa lớp",
+                titleModal: "Sửa giảng viên",
                 type: "edit",
             });
+            if (item.date_of_birth) item.date_of_birth = moment(item.date_of_birth).format('YYYY-MM-DD');
         }
         let { dispatch } = this.props;
         dispatch(CategoryAction.openModal(item));
     }
 
-    openModalDelete(classCode) {
+    openModalDelete(teacherCode) {
         let { dispatch } = this.props;
         dispatch(CategoryAction.openModalDelete());
-        this.setState({ classCodeDelete: classCode });
+        this.setState({ teacherCodeDelete: teacherCode });
     }
 
     handleSave(data) {
         let { dispatch } = this.props;
         let { type, id } = this.state;
         if (type === 'new') {
-            dispatch(CategoryAction.insertClass([data]));
+            dispatch(CategoryAction.insertTeacher([data]));
         }
         if (type === 'edit') {
             data.push(id);
-            dispatch(CategoryAction.updateClass(data));
+            dispatch(CategoryAction.updateTeacher(data));
         }
     }
 
-    deleteClass(data) {
+    deleteTeacher(data) {
         let { dispatch } = this.props;
 
-        if (data.length === 0) return toastr.error("Chưa chọn lớp nào");
-        dispatch(CategoryAction.deleteClass({ data }));
+        if (data.length === 0) return toastr.error("Chưa chọn giảng viên nào");
+        dispatch(CategoryAction.deleteTeacher({ data }));
         this.setState({
-            classCodeDelete: '',
-            arrayClassCodeDelete: []
+            teacherCodeDelete: '',
+            arrayTeacherCodeDelete: []
         });
     }
 
-    importClass(data) {
+    importTeacher(data) {
         let { dispatch } = this.props;
-        dispatch(CategoryAction.insertClass(data));
+        dispatch(CategoryAction.insertTeacher(data));
     }
 
     onPageChange(e, { activePage }) {
@@ -104,46 +106,46 @@ class Class extends Component {
         let { search } = this.state;
         let newPaging = paging;
         newPaging.pageIndex = activePage * 1;
-        dispatch(CategoryAction.getClass({ ...newPaging, search }));
+        dispatch(CategoryAction.getTeacher({ ...newPaging, search }));
     }
 
     handleSearch(search) {
         let { dispatch, paging } = this.props;
         this.setState({ search });
-        dispatch(CategoryAction.getClass({ ...paging, search }))
+        dispatch(CategoryAction.getTeacher({ ...paging, search }))
     }
 
     onPageSizeChange(pageSize) {
         let { dispatch, paging } = this.props;
         let { search } = this.state;
-        dispatch(CategoryAction.getClass({ ...paging, pageSize, search }));
+        dispatch(CategoryAction.getTeacher({ ...paging, pageSize, search }));
     }
 
     select(checked, code) {
-        let { arrayClassCodeDelete = [] } = this.state;
-        arrayClassCodeDelete = arrayClassCodeDelete.filter(item => item !== code);
+        let { arrayTeacherCodeDelete = [] } = this.state;
+        arrayTeacherCodeDelete = arrayTeacherCodeDelete.filter(item => item !== code);
         if (checked) {
-            arrayClassCodeDelete.push(code);
+            arrayTeacherCodeDelete.push(code);
         }
-        this.setState({ arrayClassCodeDelete });
+        this.setState({ arrayTeacherCodeDelete });
     }
 
     isSelectAll() {
         let { list } = this.props;
-        let { arrayClassCodeDelete } = this.state;
+        let { arrayTeacherCodeDelete } = this.state;
         for (let item of list)
-            if (!arrayClassCodeDelete.includes(item.class_code))
+            if (!arrayTeacherCodeDelete.includes(item.teacher_code))
                 return false;
         return true;
     }
 
     selectAll(e, data) {
         let { list } = this.props;
-        let { arrayClassCodeDelete } = this.state;
-        list = list.map(item => item.class_code);
-        arrayClassCodeDelete = arrayClassCodeDelete.filter(item => !list.includes(item));
-        if (data.checked) arrayClassCodeDelete.push(...list);
-        this.setState({ arrayClassCodeDelete });
+        let { arrayTeacherCodeDelete } = this.state;
+        list = list.map(item => item.teacher_code);
+        arrayTeacherCodeDelete = arrayTeacherCodeDelete.filter(item => !list.includes(item));
+        if (data.checked) arrayTeacherCodeDelete.push(...list);
+        this.setState({ arrayTeacherCodeDelete });
     }
 
     render() {
@@ -152,15 +154,30 @@ class Class extends Component {
             pageIndex: 1,
             totalPage: 1,
         } } = this.props;
-        let { titleModal, arrayClassCodeDelete = [], classCodeDelete = '' } = this.state;
-        let data = (classCodeDelete !== '') ? [classCodeDelete] : arrayClassCodeDelete;
+        let { titleModal, arrayTeacherCodeDelete = [], teacherCodeDelete = '' } = this.state;
+        let data = (teacherCodeDelete !== '') ? [teacherCodeDelete] : arrayTeacherCodeDelete;
         let feild = [
-            { name: "Mã lớp", code: "class_code" },
-            { name: "Tên lớp", code: "class_name" },
+            { name: "Mã giảng viên", code: "teacher_code" },
+            { name: "Họ tên", code: "teacher_name" },
+            { name: "Ngày sinh", code: "date_of_birth", type: 'date' },
+            {
+                name: "Giới tính",
+                code: "gender",
+                options: [{
+                    key: 'nam',
+                    text: 'Nam',
+                    value: 'nam',
+                },
+                {
+                    key: 'nữ',
+                    text: 'Nữ',
+                    value: 'nữ',
+                }]
+            }
         ];
         return (
             <Segment>
-                <Header> Danh sách Lớp </Header>
+                <Header> Danh sách giảng viên </Header>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>
@@ -168,19 +185,19 @@ class Class extends Component {
                                 handleSave={this.handleSave}
                                 feild={feild}
                                 titleModal={titleModal}
-                                handleNew={this.newClass} />
+                                handleNew={this.newTeacher} />
                         </Grid.Column>
                         <Grid.Column>
                             <ImportCSV
-                                field={["Mã lớp", "Tên lớp"]}
-                                actionImport={this.importClass}
+                                field={["Mã giảng viên", "Họ tên", 'Ngày sinh', 'Giới tính']}
+                                actionImport={this.importTeacher}
                             />
                         </Grid.Column>
                         <Grid.Column width={2}>
                             <ModalDelete
-                                handleDelete={this.deleteClass}
+                                handleDelete={this.deleteTeacher}
                                 data={data}
-                                onClose={() => { this.setState({ classCodeDelete: '' }) }}
+                                onClose={() => { this.setState({ teacherCodeDelete: '' }) }}
                             />
                         </Grid.Column>
                         <Grid.Column width={9}> </Grid.Column>
@@ -198,8 +215,10 @@ class Class extends Component {
                                 <Checkbox className='margin-right-5' checked={this.isSelectAll()} onChange={this.selectAll} />
                                 Action
                             </Table.HeaderCell>
-                            <Table.HeaderCell> Mã lớp </Table.HeaderCell>
-                            <Table.HeaderCell> Tên lớp </Table.HeaderCell>
+                            <Table.HeaderCell> Mã giảng viên </Table.HeaderCell>
+                            <Table.HeaderCell> Họ tên </Table.HeaderCell>
+                            <Table.HeaderCell> Ngày sinh </Table.HeaderCell>
+                            <Table.HeaderCell> Giới tính </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
@@ -207,13 +226,13 @@ class Class extends Component {
                             <Table.Row>
                                 <Table.Cell> {(paging.pageIndex - 1) * paging.pageSize + stt + 1} </Table.Cell>
                                 <Table.Cell>
-                                    <Checkbox className='margin-right-5' checked={arrayClassCodeDelete.includes(item.class_code)} onChange={(e, data) => { this.select(data.checked, item.class_code) }} />
+                                    <Checkbox className='margin-right-5' checked={arrayTeacherCodeDelete.includes(item.teacher_code)} onChange={(e, data) => { this.select(data.checked, item.teacher_code) }} />
                                     <Icon
                                         className="margin-5 icon-button "
                                         name="pencil"
                                         color="blue"
                                         onClick={() => {
-                                            this.newClass(item);
+                                            this.newTeacher(item);
                                         }}
                                     />
                                     <Icon
@@ -222,13 +241,15 @@ class Class extends Component {
                                         color="red"
                                         onClick={() => {
                                             this.openModalDelete(
-                                                item.class_code
+                                                item.teacher_code
                                             );
                                         }}
                                     />
                                 </Table.Cell>
-                                <Table.Cell> {item.class_code} </Table.Cell>
-                                <Table.Cell> {item.class_name} </Table.Cell>
+                                <Table.Cell> {item.teacher_code} </Table.Cell>
+                                <Table.Cell> {item.teacher_name} </Table.Cell>
+                                <Table.Cell> {moment(item.date_of_birth).format('DD/MM/YYYY')} </Table.Cell>
+                                <Table.Cell> {item.gender} </Table.Cell>
                             </Table.Row>
                         ))}
                     </Table.Body>
@@ -254,4 +275,4 @@ const mapStateToProps = (state) => ({
     list: state.category.list,
     paging: state.category.paging,
 });
-export default connect(mapStateToProps)(Class);
+export default connect(mapStateToProps)(Teacher);

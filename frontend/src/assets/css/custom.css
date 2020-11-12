@@ -479,3 +479,11 @@ body.animating.in.dimmable, body.dimmed.dimmable {
 .margin-5{
     margin: 5px !important;
 }
+
+.margin-left-5{
+    margin-left: 5px !important;
+}
+
+.margin-right-5{
+    margin-right: 5px !important;
+}

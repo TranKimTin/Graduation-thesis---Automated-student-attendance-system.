@@ -36,6 +36,17 @@ class Category extends Component {
                         Lớp
                     </Menu.Item>
                 </Menu>
+                <Menu vertical inverted>
+                    <Menu.Item
+                        as={Link}
+                        name='teacher'
+                        active={active_item === 'teacher'}
+                        onClick={this.handleItemSideBarClick}
+                        to={'/category/teacher'}>
+                        <Icon name={'street view'}/>
+                        Giảng viên
+                    </Menu.Item>
+                </Menu>
             </div>
 
         );

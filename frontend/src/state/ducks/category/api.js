@@ -8,6 +8,7 @@ function checkResult(result) {
         return result;
 }
 
+///////////////////CLASS>///////////////////////////////////
 function getClass(params = {}) {
     let url = `${BACKEND_URL}/api/class`;
     return axios.get(url, params).then(
@@ -23,15 +24,73 @@ function insertClass(params = {}) {
 }
 
 function updateClass(params = {}) {
-    let url = `${BACKEND_URL}/api/class/${params.id}`;
+    let url = `${BACKEND_URL}/api/class`;
     return axios.put(url, params).then(
         result => checkResult(result)
     );
 }
 
 function deleteClass(params = {}) {
-    let url = `${BACKEND_URL}/api/class/${params.classCode}`;
-    return axios.delete(url).then(
+    let url = `${BACKEND_URL}/api/class`;
+    return axios.delete(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+//////////////////////STUDENT///////////////////////////
+function getStudent(params = {}) {
+    let url = `${BACKEND_URL}/api/student`;
+    return axios.get(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function insertStudent(params = {}) {
+    let url = `${BACKEND_URL}/api/student`;
+    return axios.post(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function updateStudent(params = {}) {
+    let url = `${BACKEND_URL}/api/student`;
+    return axios.put(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function deleteStudent(params = {}) {
+    let url = `${BACKEND_URL}/api/student`;
+    return axios.delete(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+/////////////////////////////TEACHER//////////////////////////////////////
+function getTeacher(params = {}) {
+    let url = `${BACKEND_URL}/api/teacher`;
+    return axios.get(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function insertTeacher(params = {}) {
+    let url = `${BACKEND_URL}/api/teacher`;
+    return axios.post(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function updateTeacher(params = {}) {
+    let url = `${BACKEND_URL}/api/teacher`;
+    return axios.put(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function deleteTeacher(params = {}) {
+    let url = `${BACKEND_URL}/api/teacher`;
+    return axios.delete(url, params).then(
         result => checkResult(result)
     );
 }
@@ -40,5 +99,13 @@ export default {
     getClass,
     insertClass,
     deleteClass,
-    updateClass
+    updateClass,
+    getStudent,
+    insertStudent,
+    insertTeacher,
+    updateStudent,
+    deleteStudent,
+    getTeacher,
+    updateTeacher,
+    deleteTeacher
 };
