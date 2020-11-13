@@ -16,8 +16,9 @@ import PageSize from "../common/page_size";
 import CategoryAction from "../../../state/ducks/category/actions";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
+import moment from 'moment';
 
-class Class extends Component {
+class Year extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -43,13 +44,13 @@ class Class extends Component {
 
     componentDidMount() {
         let { dispatch } = this.props;
-        dispatch(CategoryAction.getClass());
+        dispatch(CategoryAction.getYear());
     }
 
     handleClickNew(item) {
         if (!item) {
             this.setState({
-                titleModal: "Thêm mới lớp",
+                titleModal: "Thêm mới năm học",
                 type: "new",
                 id: "",
             });
@@ -57,37 +58,38 @@ class Class extends Component {
             this.setState({
                 open: true,
                 id: item.id,
-                titleModal: "Sửa lớp",
+                titleModal: "Sửa năm học",
                 type: "edit",
             });
+            if (item.date_of_birth) item.date_of_birth = moment(item.date_of_birth).format('YYYY-MM-DD');
         }
         let { dispatch } = this.props;
         dispatch(CategoryAction.openModal(item));
     }
 
-    openModalDelete(classCode) {
+    openModalDelete(yearCode) {
         let { dispatch } = this.props;
         dispatch(CategoryAction.openModalDelete());
-        this.setState({ codeDelete: classCode });
+        this.setState({ codeDelete: yearCode });
     }
 
     handleSave(data) {
         let { dispatch } = this.props;
         let { type, id } = this.state;
         if (type === 'new') {
-            dispatch(CategoryAction.insertClass([data]));
+            dispatch(CategoryAction.insertYear([data]));
         }
         if (type === 'edit') {
             data.push(id);
-            dispatch(CategoryAction.updateClass(data));
+            dispatch(CategoryAction.updateYear(data));
         }
     }
 
     handleDelete(data) {
         let { dispatch } = this.props;
 
-        if (data.length === 0) return toastr.error("Chưa chọn lớp nào");
-        dispatch(CategoryAction.deleteClass({ data }));
+        if (data.length === 0) return toastr.error("Chưa chọn năm học nào");
+        dispatch(CategoryAction.deleteYear({ data }));
         this.setState({
             codeDelete: '',
             arrayCodeDelete: []
@@ -96,7 +98,7 @@ class Class extends Component {
 
     actionImport(data) {
         let { dispatch } = this.props;
-        dispatch(CategoryAction.insertClass(data));
+        dispatch(CategoryAction.insertYear(data));
     }
 
     onPageChange(e, { activePage }) {
@@ -104,19 +106,19 @@ class Class extends Component {
         let { search } = this.state;
         let newPaging = paging;
         newPaging.pageIndex = activePage * 1;
-        dispatch(CategoryAction.getClass({ ...newPaging, search }));
+        dispatch(CategoryAction.getYear({ ...newPaging, search }));
     }
 
     handleSearch(search) {
         let { dispatch, paging } = this.props;
         this.setState({ search });
-        dispatch(CategoryAction.getClass({ ...paging, search }))
+        dispatch(CategoryAction.getYear({ ...paging, search }))
     }
 
     onPageSizeChange(pageSize) {
         let { dispatch, paging } = this.props;
         let { search } = this.state;
-        dispatch(CategoryAction.getClass({ ...paging, pageSize, search }));
+        dispatch(CategoryAction.getYear({ ...paging, pageSize, search }));
     }
 
     select(checked, code) {
@@ -132,7 +134,7 @@ class Class extends Component {
         let { list } = this.props;
         let { arrayCodeDelete } = this.state;
         for (let item of list)
-            if (!arrayCodeDelete.includes(item.class_code))
+            if (!arrayCodeDelete.includes(item.year_code))
                 return false;
         return true;
     }
@@ -140,7 +142,7 @@ class Class extends Component {
     selectAll(e, data) {
         let { list } = this.props;
         let { arrayCodeDelete } = this.state;
-        list = list.map(item => item.class_code);
+        list = list.map(item => item.year_code);
         arrayCodeDelete = arrayCodeDelete.filter(item => !list.includes(item));
         if (data.checked) arrayCodeDelete.push(...list);
         this.setState({ arrayCodeDelete });
@@ -155,12 +157,12 @@ class Class extends Component {
         let { titleModal, arrayCodeDelete = [], codeDelete = '' } = this.state;
         let data = (codeDelete !== '') ? [codeDelete] : arrayCodeDelete;
         let fields = [
-            { name: "Mã lớp", code: "class_code" },
-            { name: "Tên lớp", code: "class_name" },
+            { name: "Mã năm học", code: "year_code" },
+            { name: "Tên năm học", code: "year_name" }
         ];
         return (
             <Segment>
-                <Header> Danh sách Lớp </Header>
+                <Header> Danh sách năm học </Header>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column>
@@ -198,8 +200,8 @@ class Class extends Component {
                                 <Checkbox className='margin-right-5' checked={this.isSelectAll()} onChange={this.selectAll} />
                                 Action
                             </Table.HeaderCell>
-                            <Table.HeaderCell> Mã lớp </Table.HeaderCell>
-                            <Table.HeaderCell> Tên lớp </Table.HeaderCell>
+                            <Table.HeaderCell> Mã năm học </Table.HeaderCell>
+                            <Table.HeaderCell> Tên năm học </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
@@ -207,7 +209,7 @@ class Class extends Component {
                             <Table.Row key={stt}>
                                 <Table.Cell> {(paging.pageIndex - 1) * paging.pageSize + stt + 1} </Table.Cell>
                                 <Table.Cell>
-                                    <Checkbox className='margin-right-5' checked={arrayCodeDelete.includes(item.class_code)} onChange={(e, data) => { this.select(data.checked, item.class_code) }} />
+                                    <Checkbox className='margin-right-5' checked={arrayCodeDelete.includes(item.year_code)} onChange={(e, data) => { this.select(data.checked, item.year_code) }} />
                                     <Icon
                                         className="margin-5 icon-button "
                                         name="pencil"
@@ -222,13 +224,13 @@ class Class extends Component {
                                         color="red"
                                         onClick={() => {
                                             this.openModalDelete(
-                                                item.class_code
+                                                item.year_code
                                             );
                                         }}
                                     />
                                 </Table.Cell>
-                                <Table.Cell> {item.class_code} </Table.Cell>
-                                <Table.Cell> {item.class_name} </Table.Cell>
+                                <Table.Cell> {item.year_code} </Table.Cell>
+                                <Table.Cell> {item.year_name} </Table.Cell>
                             </Table.Row>
                         ))}
                     </Table.Body>
@@ -254,4 +256,4 @@ const mapStateToProps = (state) => ({
     list: state.category.list,
     paging: state.category.paging,
 });
-export default connect(mapStateToProps)(Class);
+export default connect(mapStateToProps)(Year);

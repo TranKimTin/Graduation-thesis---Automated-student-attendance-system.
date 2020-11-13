@@ -39,15 +39,29 @@ class TopMenu extends Component {
                         as={NavLink}
                         exact
                         to={'/category/student'}
-                    >Danh mục</Menu.Item>
+                    >
+                        Danh mục
+                    </Menu.Item>
                     <Menu.Item
-                        name='config'
-                        active={top_menu_active === 'config'}
+                        name='configure'
+                        active={top_menu_active === 'configure'}
                         onClick={this.handleItemClick}
                         as={NavLink}
                         exact
-                        to={'/config'}
-                    >Config</Menu.Item>
+                        to={'/configure'}
+                    >
+                        Cấu hình
+                    </Menu.Item>
+                    <Menu.Item
+                        name='system'
+                        active={top_menu_active === 'system'}
+                        onClick={this.handleItemClick}
+                        as={NavLink}
+                        exact
+                        to={'/system'}
+                    >
+                        Hệ thống
+                    </Menu.Item>
                 </Menu>
             </div>
         );

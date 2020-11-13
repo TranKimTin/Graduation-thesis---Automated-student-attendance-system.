@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import {Link} from "react-router-dom";
-import {Icon, Menu} from "semantic-ui-react";
-import {connect} from "react-redux";
+import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+import { Icon, Menu } from "semantic-ui-react";
+import { connect } from "react-redux";
 import MenuAction from "../../../state/ducks/menu/actions";
 
 class Category extends Component {
 
-    handleItemSideBarClick = (e, {name}) => {
+    handleItemSideBarClick = (e, { name }) => {
         this.props.dispatch(MenuAction.handleItemSideBarClick(name));
     };
 
     render() {
-        const {active_item} = this.props;
+        const { active_item } = this.props;
         return (
             <div>
                 <Menu vertical inverted>
@@ -21,7 +21,7 @@ class Category extends Component {
                         active={active_item === 'student'}
                         onClick={this.handleItemSideBarClick}
                         to={'/category/student'}>
-                        <Icon name={'student'}/>
+                        <Icon name={'student'} />
                         Sinh viên
                     </Menu.Item>
                 </Menu>
@@ -32,7 +32,7 @@ class Category extends Component {
                         active={active_item === 'class'}
                         onClick={this.handleItemSideBarClick}
                         to={'/category/class'}>
-                        <Icon name={'users'}/>
+                        <Icon name={'users'} />
                         Lớp
                     </Menu.Item>
                 </Menu>
@@ -43,8 +43,41 @@ class Category extends Component {
                         active={active_item === 'teacher'}
                         onClick={this.handleItemSideBarClick}
                         to={'/category/teacher'}>
-                        <Icon name={'street view'}/>
+                        <Icon name={'street view'} />
                         Giảng viên
+                    </Menu.Item>
+                </Menu>
+                <Menu vertical inverted>
+                    <Menu.Item
+                        as={Link}
+                        name='subject'
+                        active={active_item === 'subject'}
+                        onClick={this.handleItemSideBarClick}
+                        to={'/category/subject'}>
+                        <Icon name={'book'} />
+                        Môn học
+                    </Menu.Item>
+                </Menu>
+                <Menu vertical inverted>
+                    <Menu.Item
+                        as={Link}
+                        name='year'
+                        active={active_item === 'year'}
+                        onClick={this.handleItemSideBarClick}
+                        to={'/category/year'}>
+                        <Icon name={'calendar outline'} />
+                        Năm học
+                    </Menu.Item>
+                </Menu>
+                <Menu vertical inverted>
+                    <Menu.Item
+                        as={Link}
+                        name='semester'
+                        active={active_item === 'semester'}
+                        onClick={this.handleItemSideBarClick}
+                        to={'/category/semester'}>
+                        <Icon name={'calendar alternate outline'} />
+                        Học kỳ
                     </Menu.Item>
                 </Menu>
             </div>

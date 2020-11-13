@@ -21,9 +21,27 @@ const Teacher = Loadable({
     loading: loading
 });
 
+const Subject = Loadable({
+    loader: () => import('./components/category/subject'),
+    loading: loading
+});
+
+const Year = Loadable({
+    loader: () => import('./components/category/year'),
+    loading: loading
+});
+
+const Semester = Loadable({
+    loader: () => import('./components/category/semester'),
+    loading: loading
+});
+
 export default [
     {path: '/', key: 'home', component: Category, exact: true},
     {path: '/category/student', key: 'home', component: Category, exact: true},
     {path: '/category/class', key: 'class', component: Class, exact: true},
     {path: '/category/teacher', key: 'teacher', component: Teacher, exact: true},
+    {path: '/category/subject', key: 'subject', component: Subject, exact: true},
+    {path: '/category/year', key: 'year', component: Year, exact: true},
+    {path: '/category/semester', key: 'semester', component: Semester, exact: true},
 ];

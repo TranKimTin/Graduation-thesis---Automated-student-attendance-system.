@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { Menu, Sidebar } from "semantic-ui-react";
 import CategoryBar from './category';
+import ConfigureBar from './configure';
+import SystemBar from './system';
 
 class LeftSidebar extends Component {
 
@@ -21,6 +23,22 @@ const RenderedContent = ({ tabName, sidebar_visible }) => {
             <Sidebar as={Menu} animation='push' direction='left' icon='labeled' width='thin'
                 inverted vertical visible={sidebar_visible} >
                 <CategoryBar />
+            </Sidebar>
+        )
+    }
+    else if (tabName.includes('configure')) {
+        return (
+            <Sidebar as={Menu} animation='push' direction='left' icon='labeled' width='thin'
+                inverted vertical visible={sidebar_visible} >
+                <ConfigureBar />
+            </Sidebar>
+        )
+    }
+    else if (tabName.includes('system')) {
+        return (
+            <Sidebar as={Menu} animation='push' direction='left' icon='labeled' width='thin'
+                inverted vertical visible={sidebar_visible} >
+                <SystemBar />
             </Sidebar>
         )
     } else {

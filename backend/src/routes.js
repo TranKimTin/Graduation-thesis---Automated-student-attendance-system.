@@ -1,23 +1,34 @@
 'use strict';
 import express from 'express';
-import * as Class from './controller/class';
+import * as Category from './controller/category';
 const routes = express.Router({});
 
-routes.get('/class', Class.getClass);
-routes.get('/student', Class.getStudent);
-routes.get('/teacher', Class.getTeacher);
+routes.get('/class', Category.getClass);
+routes.get('/student', Category.getStudent);
+routes.get('/teacher', Category.getTeacher);
+routes.get('/subject', Category.getSubject);
+routes.get('/year', Category.getYear);
+routes.get('/semester', Category.getSemester);
 
-routes.post('/class', Class.insertClass);
-routes.post('/student', Class.insertStudent);
-routes.post('/teacher', Class.insertTeacher);
+routes.post('/class', Category.insertClass);
+routes.post('/student', Category.insertStudent);
+routes.post('/teacher', Category.insertTeacher);
+routes.post('/subject', Category.insertSubject);
+routes.post('/year', Category.insertYear);
+routes.post('/semester', Category.insertSemester);
 
-routes.put('/class', Class.updateClass);
-routes.put('/student', Class.updateStudent);
-routes.put('/teacher', Class.updateTeacher);
+routes.put('/class', Category.updateClass);
+routes.put('/student', Category.updateStudent);
+routes.put('/teacher', Category.updateTeacher);
+routes.put('/subject', Category.updateSubject);
+routes.put('/year', Category.updateYear);
+routes.put('/semester', Category.updateSemester);
 
-
-routes.delete('/class', Class.deleteClass);
-routes.delete('/student', Class.deleteStudent);
-routes.delete('/teacher', Class.deleteTeacher);
+routes.delete('/class', Category.deleteClass);
+routes.delete('/student', Category.deleteStudent);
+routes.delete('/teacher', Category.deleteTeacher);
+routes.delete('/subject', Category.deleteSubject);
+routes.delete('/year', Category.deleteYear);
+routes.delete('/semester', Category.deleteSemester);
 
 export default routes;

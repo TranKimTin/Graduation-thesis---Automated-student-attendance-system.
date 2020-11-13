@@ -23,17 +23,17 @@ class Teacher extends Component {
         super(props);
         this.state = {
             id: "",
-            teacherCodeDelete: '',
-            arrayTeacherCodeDelete: [],
+            codeDelete: '',
+            arrayCodeDelete: [],
             titleModal: "",
             type: "new",
             search: ''
         };
         this.handleSave = this.handleSave.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
-        this.deleteTeacher = this.deleteTeacher.bind(this);
-        this.newTeacher = this.newTeacher.bind(this);
-        this.importTeacher = this.importTeacher.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleClickNew = this.handleClickNew.bind(this);
+        this.actionImport = this.actionImport.bind(this);
         this.onPageChange = this.onPageChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.onPageSizeChange = this.onPageSizeChange.bind(this);
@@ -47,7 +47,7 @@ class Teacher extends Component {
         dispatch(CategoryAction.getTeacher());
     }
 
-    newTeacher(item) {
+    handleClickNew(item) {
         if (!item) {
             this.setState({
                 titleModal: "Thêm mới giảng viên",
@@ -70,7 +70,7 @@ class Teacher extends Component {
     openModalDelete(teacherCode) {
         let { dispatch } = this.props;
         dispatch(CategoryAction.openModalDelete());
-        this.setState({ teacherCodeDelete: teacherCode });
+        this.setState({ codeDelete: teacherCode });
     }
 
     handleSave(data) {
@@ -85,18 +85,18 @@ class Teacher extends Component {
         }
     }
 
-    deleteTeacher(data) {
+    handleDelete(data) {
         let { dispatch } = this.props;
 
         if (data.length === 0) return toastr.error("Chưa chọn giảng viên nào");
         dispatch(CategoryAction.deleteTeacher({ data }));
         this.setState({
-            teacherCodeDelete: '',
-            arrayTeacherCodeDelete: []
+            codeDelete: '',
+            arrayCodeDelete: []
         });
     }
 
-    importTeacher(data) {
+    actionImport(data) {
         let { dispatch } = this.props;
         dispatch(CategoryAction.insertTeacher(data));
     }
@@ -122,30 +122,30 @@ class Teacher extends Component {
     }
 
     select(checked, code) {
-        let { arrayTeacherCodeDelete = [] } = this.state;
-        arrayTeacherCodeDelete = arrayTeacherCodeDelete.filter(item => item !== code);
+        let { arrayCodeDelete = [] } = this.state;
+        arrayCodeDelete = arrayCodeDelete.filter(item => item !== code);
         if (checked) {
-            arrayTeacherCodeDelete.push(code);
+            arrayCodeDelete.push(code);
         }
-        this.setState({ arrayTeacherCodeDelete });
+        this.setState({ arrayCodeDelete });
     }
 
     isSelectAll() {
         let { list } = this.props;
-        let { arrayTeacherCodeDelete } = this.state;
+        let { arrayCodeDelete } = this.state;
         for (let item of list)
-            if (!arrayTeacherCodeDelete.includes(item.teacher_code))
+            if (!arrayCodeDelete.includes(item.teacher_code))
                 return false;
         return true;
     }
 
     selectAll(e, data) {
         let { list } = this.props;
-        let { arrayTeacherCodeDelete } = this.state;
+        let { arrayCodeDelete } = this.state;
         list = list.map(item => item.teacher_code);
-        arrayTeacherCodeDelete = arrayTeacherCodeDelete.filter(item => !list.includes(item));
-        if (data.checked) arrayTeacherCodeDelete.push(...list);
-        this.setState({ arrayTeacherCodeDelete });
+        arrayCodeDelete = arrayCodeDelete.filter(item => !list.includes(item));
+        if (data.checked) arrayCodeDelete.push(...list);
+        this.setState({ arrayCodeDelete });
     }
 
     render() {
@@ -154,9 +154,9 @@ class Teacher extends Component {
             pageIndex: 1,
             totalPage: 1,
         } } = this.props;
-        let { titleModal, arrayTeacherCodeDelete = [], teacherCodeDelete = '' } = this.state;
-        let data = (teacherCodeDelete !== '') ? [teacherCodeDelete] : arrayTeacherCodeDelete;
-        let feild = [
+        let { titleModal, arrayCodeDelete = [], codeDelete = '' } = this.state;
+        let data = (codeDelete !== '') ? [codeDelete] : arrayCodeDelete;
+        let fields = [
             { name: "Mã giảng viên", code: "teacher_code" },
             { name: "Họ tên", code: "teacher_name" },
             { name: "Ngày sinh", code: "date_of_birth", type: 'date' },
@@ -183,21 +183,21 @@ class Teacher extends Component {
                         <Grid.Column>
                             <ModalInsert
                                 handleSave={this.handleSave}
-                                feild={feild}
+                                fields={fields}
                                 titleModal={titleModal}
-                                handleNew={this.newTeacher} />
+                                handleNew={this.handleClickNew} />
                         </Grid.Column>
                         <Grid.Column>
                             <ImportCSV
-                                field={["Mã giảng viên", "Họ tên", 'Ngày sinh', 'Giới tính']}
-                                actionImport={this.importTeacher}
+                                fields={fields.map(item => item.name)}
+                                actionImport={this.actionImport}
                             />
                         </Grid.Column>
                         <Grid.Column width={2}>
                             <ModalDelete
-                                handleDelete={this.deleteTeacher}
+                                handleDelete={this.handleDelete}
                                 data={data}
-                                onClose={() => { this.setState({ teacherCodeDelete: '' }) }}
+                                onClose={() => { this.setState({ codeDelete: '' }) }}
                             />
                         </Grid.Column>
                         <Grid.Column width={9}> </Grid.Column>
@@ -223,16 +223,16 @@ class Teacher extends Component {
                     </Table.Header>
                     <Table.Body>
                         {list.map((item, stt) => (
-                            <Table.Row>
+                            <Table.Row key={stt}>
                                 <Table.Cell> {(paging.pageIndex - 1) * paging.pageSize + stt + 1} </Table.Cell>
                                 <Table.Cell>
-                                    <Checkbox className='margin-right-5' checked={arrayTeacherCodeDelete.includes(item.teacher_code)} onChange={(e, data) => { this.select(data.checked, item.teacher_code) }} />
+                                    <Checkbox className='margin-right-5' checked={arrayCodeDelete.includes(item.teacher_code)} onChange={(e, data) => { this.select(data.checked, item.teacher_code) }} />
                                     <Icon
                                         className="margin-5 icon-button "
                                         name="pencil"
                                         color="blue"
                                         onClick={() => {
-                                            this.newTeacher(item);
+                                            this.handleClickNew(item);
                                         }}
                                     />
                                     <Icon

@@ -22,12 +22,12 @@ const reducer = (state = initialState, action) => {
                 loading: true,
             };
         case type.GET_DATA_SUCCESS:
-            console.log(action.data)
             return {
                 ...state,
                 loading: false,
                 list: action.data.data,
-                ...action.data.options
+                ...action.data.options,
+                paging: action.data.paging
             };
         case type.OPEN_MODAL:
             return {

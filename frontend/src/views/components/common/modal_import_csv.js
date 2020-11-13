@@ -34,11 +34,11 @@ class FileReader extends Component {
     updateData(result) {
         console.log(result)
         let data = result.data;
-        let { field = [] } = this.props;
+        let { fields = [] } = this.props;
         let dataErr = data
             .slice(1)
             .map((item, index) =>
-                item.filter((x) => x !== "").length !== field.length
+                item.filter((x) => x !== "").length !== fields.length
                     ? index + 2
                     : null
             )
@@ -46,7 +46,7 @@ class FileReader extends Component {
         data = data
             .slice(1)
             .filter(
-                (item) => item.filter((x) => x !== "").length === field.length
+                (item) => item.filter((x) => x !== "").length === fields.length
             );
         console.log(data);
         this.setState({
@@ -57,7 +57,7 @@ class FileReader extends Component {
 
     render() {
         let { openModalInport, data, dataErr } = this.state;
-        let { field = [] } = this.props;
+        let { fields = [] } = this.props;
         return (
             <div>
                 <Button
@@ -86,8 +86,8 @@ class FileReader extends Component {
                                 từ hàng thứ 2
                             </div>
                             <div>Thứ tự cột như sau: </div>
-                            {field.map((item, index) => (
-                                <div style={{ marginLeft: 10 }}>
+                            {fields.map((item, index) => (
+                                <div style={{ marginLeft: 10 }} key={index}>
                                     {String.fromCharCode(index + 65)} : {item}
                                 </div>
                             ))}

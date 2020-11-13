@@ -95,6 +95,93 @@ function deleteTeacher(params = {}) {
     );
 }
 
+/////////////////SUBJECT///////////////////////////
+function getSubject(params = {}) {
+    let url = `${BACKEND_URL}/api/subject`;
+    return axios.get(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function insertSubject(params = {}) {
+    let url = `${BACKEND_URL}/api/subject`;
+    return axios.post(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function updateSubject(params = {}) {
+    let url = `${BACKEND_URL}/api/subject`;
+    return axios.put(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function deleteSubject(params = {}) {
+    let url = `${BACKEND_URL}/api/subject`;
+    return axios.delete(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+///////////////////////YEAR//////////////////////////////
+function getYear(params = {}) {
+    let url = `${BACKEND_URL}/api/year`;
+    return axios.get(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function insertYear(params = {}) {
+    let url = `${BACKEND_URL}/api/year`;
+    return axios.post(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function updateYear(params = {}) {
+    let url = `${BACKEND_URL}/api/year`;
+    return axios.put(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function deleteYear(params = {}) {
+    let url = `${BACKEND_URL}/api/year`;
+    return axios.delete(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+////////////////////SEMESTER////////////////////////////
+function getSemester(params = {}) {
+    let url = `${BACKEND_URL}/api/semester`;
+    return axios.get(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function insertSemester(params = {}) {
+    let url = `${BACKEND_URL}/api/semester`;
+    return axios.post(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function updateSemester(params = {}) {
+    let url = `${BACKEND_URL}/api/semester`;
+    return axios.put(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function deleteSemester(params = {}) {
+    let url = `${BACKEND_URL}/api/semester`;
+    return axios.delete(url, params).then(
+        result => checkResult(result)
+    );
+}
+
 export default {
     getClass,
     insertClass,
@@ -107,5 +194,17 @@ export default {
     deleteStudent,
     getTeacher,
     updateTeacher,
-    deleteTeacher
+    deleteTeacher,
+    getSubject,
+    insertSubject,
+    updateSubject,
+    deleteSubject,
+    getYear,
+    insertYear,
+    updateYear,
+    deleteYear,
+    getSemester,
+    insertSemester,
+    updateSemester,
+    deleteSemester
 };

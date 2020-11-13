@@ -23,17 +23,17 @@ class Student extends Component {
         super(props);
         this.state = {
             id: "",
-            studentCodeDelete: '',
-            arrayStudentCodeDelete: [],
+            codeDelete: '',
+            arrayCodeDelete: [],
             titleModal: "",
             type: "new",
             search: ''
         };
         this.handleSave = this.handleSave.bind(this);
         this.openModalDelete = this.openModalDelete.bind(this);
-        this.deleteStudent = this.deleteStudent.bind(this);
-        this.newStudent = this.newStudent.bind(this);
-        this.importStudent = this.importStudent.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleClickNew = this.handleClickNew.bind(this);
+        this.actionImport = this.actionImport.bind(this);
         this.onPageChange = this.onPageChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.onPageSizeChange = this.onPageSizeChange.bind(this);
@@ -47,7 +47,7 @@ class Student extends Component {
         dispatch(CategoryAction.getStudent());
     }
 
-    newStudent(item) {
+    handleClickNew(item) {
         console.log(item)
         if (!item) {
             this.setState({
@@ -71,7 +71,7 @@ class Student extends Component {
     openModalDelete(studentCode) {
         let { dispatch } = this.props;
         dispatch(CategoryAction.openModalDelete());
-        this.setState({ studentCodeDelete: studentCode });
+        this.setState({ codeDelete: studentCode });
     }
 
     handleSave(data) {
@@ -86,18 +86,18 @@ class Student extends Component {
         }
     }
 
-    deleteStudent(data) {
+    handleDelete(data) {
         let { dispatch } = this.props;
 
         if (data.length === 0) return toastr.error("Chưa chọn sinh viên nào");
         dispatch(CategoryAction.deleteStudent({ data }));
         this.setState({
-            studentCodeDelete: '',
-            arrayStudentCodeDelete: []
+            codeDelete: '',
+            arrayCodeDelete: []
         });
     }
 
-    importStudent(data) {
+    actionImport(data) {
         let { dispatch } = this.props;
         dispatch(CategoryAction.insertStudent(data));
     }
@@ -123,30 +123,30 @@ class Student extends Component {
     }
 
     select(checked, code) {
-        let { arrayStudentCodeDelete = [] } = this.state;
-        arrayStudentCodeDelete = arrayStudentCodeDelete.filter(item => item !== code);
+        let { arrayCodeDelete = [] } = this.state;
+        arrayCodeDelete = arrayCodeDelete.filter(item => item !== code);
         if (checked) {
-            arrayStudentCodeDelete.push(code);
+            arrayCodeDelete.push(code);
         }
-        this.setState({ arrayStudentCodeDelete });
+        this.setState({ arrayCodeDelete });
     }
 
     isSelectAll() {
         let { list } = this.props;
-        let { arrayStudentCodeDelete } = this.state;
+        let { arrayCodeDelete } = this.state;
         for (let item of list)
-            if (!arrayStudentCodeDelete.includes(item.student_code))
+            if (!arrayCodeDelete.includes(item.student_code))
                 return false;
         return true;
     }
 
     selectAll(e, data) {
         let { list } = this.props;
-        let { arrayStudentCodeDelete } = this.state;
+        let { arrayCodeDelete } = this.state;
         list = list.map(item => item.student_code);
-        arrayStudentCodeDelete = arrayStudentCodeDelete.filter(item => !list.includes(item));
-        if (data.checked) arrayStudentCodeDelete.push(...list);
-        this.setState({ arrayStudentCodeDelete });
+        arrayCodeDelete = arrayCodeDelete.filter(item => !list.includes(item));
+        if (data.checked) arrayCodeDelete.push(...list);
+        this.setState({ arrayCodeDelete });
     }
 
     render() {
@@ -155,9 +155,9 @@ class Student extends Component {
             pageIndex: 1,
             totalPage: 1,
         } } = this.props;
-        let { titleModal, arrayStudentCodeDelete = [], studentCodeDelete = '' } = this.state;
-        let data = (studentCodeDelete !== '') ? [studentCodeDelete] : arrayStudentCodeDelete;
-        let feild = [
+        let { titleModal, arrayCodeDelete = [], codeDelete = '' } = this.state;
+        let data = (codeDelete !== '') ? [codeDelete] : arrayCodeDelete;
+        let fields = [
             { name: "Mã sinh viên", code: "student_code" },
             { name: "Tên sinh viên", code: "student_name" },
             { name: "Ngày sinh", code: "date_of_birth", type: 'date' },
@@ -193,21 +193,21 @@ class Student extends Component {
                         <Grid.Column>
                             <ModalInsert
                                 handleSave={this.handleSave}
-                                feild={feild}
+                                fields={fields}
                                 titleModal={titleModal}
-                                handleNew={this.newStudent} />
+                                handleNew={this.handleClickNew} />
                         </Grid.Column>
                         <Grid.Column>
                             <ImportCSV
-                                field={["Mã sinh viên", "Họ tên", 'Mã lớp']}
-                                actionImport={this.importStudent}
+                                fields={fields.map(item => item.name)}
+                                actionImport={this.actionImport}
                             />
                         </Grid.Column>
                         <Grid.Column width={2}>
                             <ModalDelete
-                                handleDelete={this.deleteStudent}
+                                handleDelete={this.handleDelete}
                                 data={data}
-                                onClose={() => { this.setState({ studentCodeDelete: '' }) }}
+                                onClose={() => { this.setState({ codeDelete: '' }) }}
                             />
                         </Grid.Column>
                         <Grid.Column width={9}> </Grid.Column>
@@ -234,16 +234,16 @@ class Student extends Component {
                     </Table.Header>
                     <Table.Body>
                         {list.map((item, stt) => (
-                            <Table.Row>
+                            <Table.Row key={stt}>
                                 <Table.Cell> {(paging.pageIndex - 1) * paging.pageSize + stt + 1} </Table.Cell>
                                 <Table.Cell>
-                                    <Checkbox className='margin-right-5' checked={arrayStudentCodeDelete.includes(item.student_code)} onChange={(e, data) => { this.select(data.checked, item.student_code) }} />
+                                    <Checkbox className='margin-right-5' checked={arrayCodeDelete.includes(item.student_code)} onChange={(e, data) => { this.select(data.checked, item.student_code) }} />
                                     <Icon
                                         className="margin-5 icon-button "
                                         name="pencil"
                                         color="blue"
                                         onClick={() => {
-                                            this.newStudent(item);
+                                            this.handleClickNew(item);
                                         }}
                                     />
                                     <Icon

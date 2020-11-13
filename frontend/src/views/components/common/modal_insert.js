@@ -11,6 +11,7 @@ class ModalInsert extends Component {
         this.closeModal = this.closeModal.bind(this);
         this.changeValue = this.changeValue.bind(this);
         this.save = this.save.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
     }
 
     closeModal() {
@@ -19,9 +20,9 @@ class ModalInsert extends Component {
     }
 
     save() {
-        let { handleSave, feild = [], dataInsert = {} } = this.props;
+        let { handleSave, fields = [], dataInsert = {} } = this.props;
         let data = [];
-        for (let item of feild) {
+        for (let item of fields) {
             if (!dataInsert[item.code] || dataInsert[item.code].trim() === '') return toastr.error(`${item.name} không hợp lệ`);
             data.push(dataInsert[item.code]);
         }
@@ -34,8 +35,13 @@ class ModalInsert extends Component {
         dispatch(CategoryAction.changeValue({ name: data.name, value: data.value }));
     }
 
+    onKeyPress(e){
+        if(e.key === 'Enter'){
+            this.save();
+        }
+    }
     render() {
-        let { open = false, feild = [], titleModal, dataInsert, handleNew } = this.props;
+        let { open = false, fields = [], titleModal, dataInsert, handleNew } = this.props;
         return (
             <div>
                 <Button
@@ -54,8 +60,8 @@ class ModalInsert extends Component {
                     <Header icon="group" content={titleModal} />
                     <Modal.Content>
                         <Grid>
-                            {feild.map((item) => (
-                                <Grid.Row>
+                            {fields.map((item, i) => (
+                                <Grid.Row key={i}>
                                     <Grid.Column width={16}>
                                         <label><strong>{item.name}</strong></label>
                                         {!item.options &&
@@ -65,6 +71,7 @@ class ModalInsert extends Component {
                                                 onChange={this.changeValue}
                                                 fluid
                                                 type={item.type || 'text'}
+                                                onKeyPress={this.onKeyPress}
                                             />
                                         }
                                         {item.options &&

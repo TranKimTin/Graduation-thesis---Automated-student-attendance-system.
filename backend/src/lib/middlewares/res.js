@@ -7,7 +7,12 @@ export default function response() {
             let tmp = {
                 status: 'success',
                 message: message || 'success',
-                data: data || {}
+                data: data || {},
+                paging: {
+                    pageSize: 25,
+                    pageIndex: 1,
+                    totalPage: 1,
+                }
             };
             if (paging) {
                 tmp.paging = paging || {};
