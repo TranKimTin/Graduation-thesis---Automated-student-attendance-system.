@@ -1,0 +1,493 @@
+.pusher .main {
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08) inset !important;
+    top: 48px;
+    background-color: #eff3f6 !important;
+}
+
+.pusher .footer {
+    border-top: 1px solid #DDDDDD;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08) inset;
+    background-color: #FAFAFA;
+    padding-top: 1em;
+    margin-top: 48px;
+}
+
+#main_top_menu {
+    border: 0;
+    margin: 0;
+}
+
+.ui.left.vertical.menu ~ .pusher {
+    -webkit-transition: all .3s linear; /* For Safari 3.1 to 6.0 */
+    transition: all .3s linear;
+    width: 100%;
+}
+
+.ui.left.visible.vertical.menu ~ .pusher {
+    -webkit-transition: all .3s linear; /* For Safari 3.1 to 6.0 */
+    transition: all .3s linear;
+    width: calc(100% - 150px);
+}
+
+/* .react-sanfona {
+} */
+
+.react-sanfona-item {
+    vertical-align: middle;
+    min-width: 6em;
+    text-align: left;
+}
+
+.react-sanfona-item div {
+    color: #fff;
+}
+
+.react-sanfona-item-expanded {
+    background: rgba(255, 255, 255, .10);
+}
+
+.react-sanfona-item-title {
+    padding: .92857143em 1.14285714em;
+}
+
+.react-sanfona-item-title.my-icon:before {
+    font-family: Icons;
+    display: inline-block;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+.react-sanfona-item-title.config.my-icon:before {
+    content: "\f013";
+}
+
+.react-sanfona-item-title.server.my-icon:before {
+    content: "\f233";
+}
+
+.react-sanfona-item-title.bar.my-icon:before {
+    content: "\f080";
+}
+
+.react-sanfona-item-title.map.my-icon:before {
+    content: "\f279";
+}
+
+.react-sanfona-item-title:hover {
+    background: rgba(255, 255, 255, .15);
+}
+
+/* .react-sanfona-item-body {
+
+} */
+
+/* .react-sanfona-item-body-wrapper {
+
+} */
+
+.react-sanfona-item-body-wrapper p.lv2 {
+    padding: 10px 0px 10px 30px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.react-sanfona-item-body-wrapper p.lv2 a {
+    color: #fff;
+}
+
+/* .react-sanfona-item-disabled {
+
+} */
+
+.DateRangePicker {
+    display: block !important;
+}
+
+.DateRangePickerInput {
+    border: none !important;
+}
+
+.DateRangePicker input {
+    line-height: 1.21428571em;
+    padding: .67857143em 1em;
+    border: 1px solid rgba(34, 36, 38, .15);
+    font-size: 1em;
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    border-radius: .28571429rem;
+}
+
+.DateRangePickerInput_arrow_svg {
+    height: 17px !important;
+}
+
+#notfound {
+    position: relative;
+    height: 100vh;
+}
+
+#notfound .notfound {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.notfound {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.notfound .notfound-404 {
+    height: 190px;
+}
+
+.notfound .notfound-404 h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 146px;
+    font-weight: 700;
+    margin: 0px;
+    color: #232323;
+}
+
+.notfound .notfound-404 h1 > span {
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    background-image: url('../img/emoji.png');
+    background-size: cover;
+    -webkit-transform: scale(1.4);
+    -ms-transform: scale(1.4);
+    transform: scale(1.4);
+    z-index: -1;
+}
+
+.notfound h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    color: #232323;
+}
+
+.notfound p {
+    font-family: 'Montserrat', sans-serif;
+    color: #787878;
+    font-weight: 300;
+}
+
+.notfound a {
+    font-family: 'Montserrat', sans-serif;
+    display: inline-block;
+    padding: 12px 30px;
+    font-weight: 700;
+    background-color: #f99827;
+    color: #fff;
+    border-radius: 40px;
+    text-decoration: none;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+}
+
+.notfound a:hover {
+    opacity: 0.8;
+}
+
+.warning, .Warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    padding: 5px;
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+
+.critical, .Critical {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 5px;
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+
+.float-right {
+    float: right;
+}
+
+.walk {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    font-size: 130%;
+    width: 30%;
+    text-align: center;
+}
+
+.icon-button:hover {
+    cursor: pointer;
+}
+
+.float-left {
+    float: left;
+}
+
+.ui.orange.circular.horizontal.label.float-left.new_oid {
+    margin-left: 6px;
+}
+
+.button.float-left.new_oid {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 14px;
+    height: 22px;
+    margin-left: 6px;
+}
+
+.ui.toggle.checkbox input ~ label:before {
+    content: 'OFF' !important;
+    color: #000;
+    font-size: 10px;
+    padding: 1px 23px;
+}
+
+.ui.toggle.checkbox input:checked ~ label:before {
+    content: 'ON' !important;
+    color: #fff;
+    font-size: 10px;
+    padding: 1px 5px;
+}
+
+.checkbox-margin {
+    margin-right: 20px;
+}
+
+.padding-button {
+    padding-left: 5px;
+}
+
+.text-add {
+    text-align: center !important;
+    border-left: 1px solid #2224261a !important;
+}
+
+.margin-10 {
+    margin: 10px;
+}
+
+.max-width-500 {
+    max-width: 500px;
+}
+
+.ui.icon.menu .item {
+    line-height: 30px;
+    padding-right: 500px;
+    text-align: justify;
+}
+
+.ui.vertical.menu .item::before {
+    height: 0;
+}
+
+.ui.compact.vertical.menu {
+    width: 100% !important;
+}
+
+.ui.inverted.icon.menu .item, .ui.vertical.inverted.menu .menu .item {
+    color: #fff;
+    font-size: 14px;
+}
+
+.ui.labeled.icon.menu .item > .icon:not(.dropdown) {
+    float: left;
+    margin-right: 8px !important;
+    font-size: 15px !important;
+}
+
+.ui.inverted.vertical.menu {
+    width: 150px;
+}
+
+/* Page Context */
+.pushable:not(body) {
+    transform: none;
+}
+
+/*fixed sidebar co dinh ben trai*/
+.pushable:not(body) > .ui.sidebar,
+.pushable:not(body) > .fixed,
+.pushable:not(body) > .pusher:after {
+    position: fixed;
+    top: 50px;
+}
+
+@media only screen and (max-width: 767px) {
+    .warp {
+        width: 1224px;
+        overflow: auto;
+    }
+}
+
+.react-datepicker__input-container {
+    width: inherit;
+    height: inherit;
+}
+
+.react-datepicker__input-container input {
+    width: inherit;
+    height: 100%;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+body.animating.in.dimmable, body.dimmed.dimmable {
+    overflow: auto;
+}
+
+.textOts {
+    color: #556579 !important;
+    margin-left: 10% !important;
+}
+
+.segment.topomap canvas {
+    background: hsl(0, 0%, 90%) url('../img/worldmap.png') no-repeat fixed center;
+    width: 100% !important;
+}
+
+.Terminal {
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, .5);
+}
+
+.Terminal__Toolbar {
+    background: linear-gradient(#504b45 0%, #3c3b37 100%);
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.Toolbar__user {
+    color: #d5d0ce;
+    margin-left: 4px;
+    font-size: 12px;
+    line-height: 14px;
+    margin-bottom: 1px;
+}
+
+.Terminal__body {
+    background: #1B1C1D;
+    height: calc(100% - 25px);
+    margin-top: -1px;
+    padding-top: 2px;
+    font-family: 'Ubuntu mono';
+    padding-left: 10px;
+    height: 400px;
+    overflow: auto;
+}
+
+.Terminal__text {
+    color: #ddd;
+}
+
+.Terminal__Prompt {
+    margin-top: 10px;
+}
+
+.Prompt__user {
+    color: #87d441;
+}
+
+.Prompt__location {
+    color: #6d85a9;
+}
+
+.Prompt__dollar {
+    color: #ddd;
+}
+
+.Prompt__cursor {
+    height: 17px;
+    width: 8px;
+    background: white;
+    display: block;
+    margin-left: 8px;
+    animation: 2000ms ease infinite alternate blink;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .Terminal {
+        max-height: 90%;
+        width: 95%;
+    }
+}
+
+.ui.five.cards > .card-das {
+    width: calc(20% - 4em);
+    margin-left: 2em;
+    margin-right: 2em;
+    padding: 1em;
+}
+
+.card-top {
+    margin-top: 1em !important;
+}
+
+.topo_extra_info {
+    min-height: 164px;
+}
+
+.amcharts-moving-line {
+    stroke-dasharray: 3px 3px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    -webkit-animation: am-moving-dashes 1s linear infinite;
+    animation: am-moving-dashes 1s linear infinite;
+}
+
+@-webkit-keyframes am-moving-dashes {
+    100% {
+        stroke-dashoffset: -31px;
+    }
+}
+@keyframes am-moving-dashes {
+    100% {
+        stroke-dashoffset: -31px;
+    }
+}
+
+.margin-5{
+    margin: 5px !important;
+}
+
+.margin-left-5{
+    margin-left: 5px !important;
+}
+
+.margin-right-5{
+    margin-right: 5px !important;
+}
+
+.margin-bottom-5{
+    margin-bottom: 5px !important;
+}
