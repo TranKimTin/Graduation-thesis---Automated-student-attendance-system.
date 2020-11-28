@@ -1,7 +1,8 @@
 import type from './types';
 
 const initialState = {
-    sidebar_visible: true
+    sidebar_visible: true,
+    open: true
 };
 
 const reducer = (state = initialState, action) => {

@@ -16,10 +16,19 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     response => {
-        if (response.data.error_code === 403) {
+        if (response.data.error_code === 401) { //access_token sai, hết hạn => về tramg login
+            setTimeout(() => {
+                Cookies.remove("access_token");
+                Cookies.remove("user");
+                window.location.href = '/login';
+            }, 1000);
+            return Promise.reject(response.data);
+        }
+        else if (response.data.error_code === 402 || response.data.error_code === 403) { //đăng nhập sai || không có quyền
+            return Promise.reject(response.data);
+        } else {
             return response;
-        } else
-            return response;
+        }
     },
     async error => {
         return Promise.reject(error);
@@ -28,23 +37,23 @@ instance.interceptors.response.use(
 
 export default {
     get: function (url, params = {}) {
-        headers['x-access-token'] = Cookies.get('user') ? JSON.parse(Cookies.get('user')).token : '';
-        return instance.get(url, {headers, params})
+        headers['x-access-token'] = Cookies.get('access_token') || '';
+        return instance.get(url, { headers, params })
             .then(result => result.data)
     },
     post: function (url, body = {}) {
-        headers['x-access-token'] = Cookies.get('user') ? JSON.parse(Cookies.get('user')).token : '';
-        return instance.post(url, body, {headers})
+        headers['x-access-token'] = Cookies.get('access_token') || '';
+        return instance.post(url, body, { headers })
             .then(result => result.data);
     },
     put: function (url, body = {}) {
-        headers['x-access-token'] = Cookies.get('user') ? JSON.parse(Cookies.get('user')).token : '';
-        return instance.put(url, body, {headers})
+        headers['x-access-token'] = Cookies.get('access_token') || '';
+        return instance.put(url, body, { headers })
             .then(result => result.data);
     },
     delete: function (url, params = {}) {
-        headers['x-access-token'] = Cookies.get('user') ? JSON.parse(Cookies.get('user')).token : '';
-        return instance.delete(url, {params, headers})
+        headers['x-access-token'] = Cookies.get('access_token') || '';
+        return instance.delete(url, { params, headers })
             .then(result => result.data);
     }
 };

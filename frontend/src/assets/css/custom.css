@@ -487,3 +487,13 @@ body.animating.in.dimmable, body.dimmed.dimmable {
 .margin-right-5{
     margin-right: 5px !important;
 }
+
+.margin-bottom-5{
+    margin-bottom: 5px !important;
+}
+
+.overflow{
+    overflow-x: scroll;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

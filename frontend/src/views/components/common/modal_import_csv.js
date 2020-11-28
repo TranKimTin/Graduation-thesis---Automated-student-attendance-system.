@@ -20,6 +20,7 @@ class FileReader extends Component {
         Papa.parse(csvfile, {
             complete: this.updateData,
             header: false,
+            delimiter : '\t'
         });
     };
 
@@ -43,6 +44,7 @@ class FileReader extends Component {
                     : null
             )
             .filter((item) => item);
+        if(dataErr.length) dataErr.pop();
         data = data
             .slice(1)
             .filter(

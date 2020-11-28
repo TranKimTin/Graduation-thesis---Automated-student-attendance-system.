@@ -312,15 +312,15 @@ const deleteSemester = (params) => {
 };
 
 export default {
-    getClass,
-    insertClass,
-    deleteClass,
-    updateClass,
     openModal,
     closeModal,
     changeValue,
     openModalDelete,
     closeModalDelete,
+    getClass,
+    insertClass,
+    deleteClass,
+    updateClass,
     getStudent,
     insertStudent,
     updateStudent,

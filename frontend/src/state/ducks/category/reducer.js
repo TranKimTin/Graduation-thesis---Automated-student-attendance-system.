@@ -1,4 +1,5 @@
 import type from "./types";
+import _ from 'lodash';
 
 const initialState = {
     loading: true,
@@ -11,7 +12,9 @@ const initialState = {
     open: false,
     dataInsert: {},
     open_modal_delete: false,
-    optionClass: []
+    optionClass: [],
+    columnSort: null,
+    direction: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -57,6 +60,22 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 open_modal_delete: false
+            };
+        case type.CHANGE_SORT:
+            if (state.columnSort === action.columnSort) {
+                return {
+                    ...state,
+                    list: [...state.list.reverse()],
+                    direction:
+                        state.direction === 'ascending' ? 'descending' : 'ascending',
+                };
+            }
+
+            return {
+                ...state,
+                columnSort: action.columnSort,
+                list: _.sortBy(state.list, [action.columnSort]),
+                direction: 'ascending',
             };
         default:
             return state;

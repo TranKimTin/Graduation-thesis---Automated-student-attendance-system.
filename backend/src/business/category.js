@@ -1,5 +1,6 @@
 "use strict";
 import * as mysql from "../lib/mysql_connector";
+import md5 from 'md5';
 
 ///////////////////////CLASS///////////////////////////
 export async function getClass(args) {
@@ -46,7 +47,7 @@ export async function getStudent(args) {
                         WHERE st.student_name LIKE ? OR st.student_code like ? `;
     let sql_select_class = `SELECT class_name, class_code 
                                 FROM class 
-                                ORDER BY class_name`
+                                ORDER BY class_name`;
     let [data, [{ count }], optionClass] = await Promise.all([
         mysql.query(sql_select, [search, search, pageSize, (pageIndex - 1) * pageSize]),
         mysql.query(sql_count, [search, search]),
@@ -72,6 +73,8 @@ export async function insertStudent(args) {
 }
 
 export async function updateStudent(args) {
+    let [{ id }] = await mysql.query(`SELECT id from class WHERE class_code = ? limit 1`, args[4]);
+    args[4] = id;
     return await mysql.query(`UPDATE student SET 
                                 student_code = ?, student_name = ?, date_of_birth = ?, gender = ?, class_id = ? 
                                 WHERE id = ?`, args);
@@ -101,7 +104,10 @@ export async function getTeacher(args) {
 }
 
 export async function insertTeacher(args) {
-    return await mysql.query(`INSERT INTO teacher(teacher_code, teacher_name, date_of_birth, gender) VALUES ?`, [args]);
+    let account = args.map(item => [item[0], md5(item[0]), 2]);
+    await mysql.query(`INSERT INTO teacher(teacher_code, teacher_name, date_of_birth, gender) VALUES ?`, [args]);
+    await mysql.query(`INSERT INTO user(username, password, role) VALUE ?`, [account]);
+    return [];
 }
 
 export async function updateTeacher(args) {
@@ -111,7 +117,8 @@ export async function updateTeacher(args) {
 }
 
 export async function deleteTeacher(args) {
-    return await mysql.query(`DELETE FROM teacher WHERE teacher_code IN (?)`, [args]);
+    await mysql.query(`DELETE FROM teacher WHERE teacher_code IN (?)`, [args]);
+    return await mysql.query(`DELETE FROM user WHERE username IN (?)`, [args]);
 }
 
 ////////////////////////////SUBJECT//////////////////////////////

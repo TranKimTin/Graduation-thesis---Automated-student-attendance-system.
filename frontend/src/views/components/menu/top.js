@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { Menu, Icon } from "semantic-ui-react";
+import { Menu, Icon, Button } from "semantic-ui-react";
 import { NavLink } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
 import MenuAction from '../../../state/ducks/menu/actions';
+
 class TopMenu extends Component {
 
     constructor(props) {
@@ -25,6 +26,9 @@ class TopMenu extends Component {
 
     render() {
         const { top_menu_active } = this.props;
+        let user = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : {};
+        console.log(user)
+        let isAdmin = user.role_code === 'ROLE_ADMIN' ? true : false;
         return (
             <div>
                 <Menu id='main_top_menu' fixed="top">
@@ -33,34 +37,55 @@ class TopMenu extends Component {
                         <Icon name="sidebar" />
                     </Menu.Item>
                     <Menu.Item
-                        name='category'
-                        active={top_menu_active === 'category'}
+                        name='attendance'
+                        active={top_menu_active === 'attendance'}
                         onClick={this.handleItemClick}
                         as={NavLink}
                         exact
-                        to={'/category/student'}
+                        to={'/attendance'}
                     >
-                        Danh mục
+                        Điểm danh
                     </Menu.Item>
+                    {isAdmin &&
+                        <Menu.Item
+                            name='category'
+                            active={top_menu_active === 'category'}
+                            onClick={this.handleItemClick}
+                            as={NavLink}
+                            exact
+                            to={'/category'}
+                        >
+                            Danh mục
+                    </Menu.Item>}
+                    {isAdmin &&
+                        <Menu.Item
+                            name='configure'
+                            active={top_menu_active === 'configure'}
+                            onClick={this.handleItemClick}
+                            as={NavLink}
+                            exact
+                            to={'/configure'}
+                        >
+                            Cấu hình
+                    </Menu.Item>}
+                    {isAdmin &&
+                        <Menu.Item
+                            name='system'
+                            active={top_menu_active === 'system'}
+                            onClick={this.handleItemClick}
+                            as={NavLink}
+                            exact
+                            to={'/system'}
+                        >
+                            Hệ thống
+                    </Menu.Item>}
                     <Menu.Item
-                        name='configure'
-                        active={top_menu_active === 'configure'}
-                        onClick={this.handleItemClick}
-                        as={NavLink}
-                        exact
-                        to={'/configure'}
+                        floated='right'
+                        as={Button}
+                        color='teal'
+                        onClick={() => { MenuAction.logout() }}
                     >
-                        Cấu hình
-                    </Menu.Item>
-                    <Menu.Item
-                        name='system'
-                        active={top_menu_active === 'system'}
-                        onClick={this.handleItemClick}
-                        as={NavLink}
-                        exact
-                        to={'/system'}
-                    >
-                        Hệ thống
+                        <div style={{ color: 'red' }}>Đăng xuất ({user.name || user.username})</div>
                     </Menu.Item>
                 </Menu>
             </div>

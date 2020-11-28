@@ -41,12 +41,22 @@ const RenderedContent = ({ tabName, sidebar_visible }) => {
                 <SystemBar />
             </Sidebar>
         )
+    }
+    else if (tabName.includes('attendance')) {
+        return (
+            <div></div>
+            // <Sidebar as={Menu} animation='push' direction='left' icon='labeled' width='thin'
+            //     inverted vertical visible={sidebar_visible} >
+            //     {/* <SystemBar /> */}
+            // </Sidebar>
+        )
     } else {
         return (
-            <Sidebar as={Menu} animation='push' direction='left' icon='labeled' width='thin'
-                inverted vertical visible={sidebar_visible} >
-                <CategoryBar />
-            </Sidebar>
+            <div></div>
+            // <Sidebar as={Menu} animation='push' direction='left' icon='labeled' width='thin'
+            //     inverted vertical visible={sidebar_visible} >
+            //     <CategoryBar />
+            // </Sidebar>
         )
     }
 };

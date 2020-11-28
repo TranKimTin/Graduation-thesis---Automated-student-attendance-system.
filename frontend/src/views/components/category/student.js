@@ -13,10 +13,12 @@ import ImportCSV from "../common/modal_import_csv";
 import ModalInsert from "../common/modal_insert";
 import ModalDelete from "../common/modal_delete";
 import PageSize from "../common/page_size";
+import TableHeader from "../common/table_header";
 import CategoryAction from "../../../state/ducks/category/actions";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import moment from 'moment';
+import LoaderActive from "../common/loader";
 
 class Student extends Component {
     constructor(props) {
@@ -57,7 +59,6 @@ class Student extends Component {
             });
         } else {
             this.setState({
-                open: true,
                 id: item.id,
                 titleModal: "Sửa Sinh viên",
                 type: "edit",
@@ -150,7 +151,7 @@ class Student extends Component {
     }
 
     render() {
-        let { list, optionClass, paging = {
+        let { list, optionClass = [], loading = false, paging = {
             pageSize: 25,
             pageIndex: 1,
             totalPage: 1,
@@ -185,6 +186,13 @@ class Student extends Component {
                 }))
             },
         ];
+        let header = [
+            { name: 'Mã sinh viên', code: 'student_code', width: 3 },
+            { name: 'Họ Tên', code: 'student_name', width: 4 },
+            { name: 'Ngày sinh', code: 'date_of_birth', width: 2 },
+            { name: 'Giới tính', code: 'gender', width: 2 },
+            { name: 'Lớp', code: 'class_name', width: 2 }
+        ];
         return (
             <Segment>
                 <Header> Danh sách sinh viên </Header>
@@ -217,54 +225,49 @@ class Student extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <Table celled>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell> STT </Table.HeaderCell>
-                            <Table.HeaderCell>
-                                <Checkbox className='margin-right-5' checked={this.isSelectAll()} onChange={this.selectAll} />
-                                Action
-                            </Table.HeaderCell>
-                            <Table.HeaderCell> Mã sinh viên </Table.HeaderCell>
-                            <Table.HeaderCell> Họ Tên </Table.HeaderCell>
-                            <Table.HeaderCell> Ngày sinh </Table.HeaderCell>
-                            <Table.HeaderCell> Giới tính </Table.HeaderCell>
-                            <Table.HeaderCell> Lớp </Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {list.map((item, stt) => (
-                            <Table.Row key={stt}>
-                                <Table.Cell> {(paging.pageIndex - 1) * paging.pageSize + stt + 1} </Table.Cell>
-                                <Table.Cell>
-                                    <Checkbox className='margin-right-5' checked={arrayCodeDelete.includes(item.student_code)} onChange={(e, data) => { this.select(data.checked, item.student_code) }} />
-                                    <Icon
-                                        className="margin-5 icon-button "
-                                        name="pencil"
-                                        color="blue"
-                                        onClick={() => {
-                                            this.handleClickNew(item);
-                                        }}
-                                    />
-                                    <Icon
-                                        className="margin-5 icon-button "
-                                        name="trash alternate"
-                                        color="red"
-                                        onClick={() => {
-                                            this.openModalDelete(
-                                                item.student_code
-                                            );
-                                        }}
-                                    />
-                                </Table.Cell>
-                                <Table.Cell> {item.student_code} </Table.Cell>
-                                <Table.Cell> {item.student_name} </Table.Cell>
-                                <Table.Cell> {moment(item.date_of_birth).format('DD/MM/YYYY')} </Table.Cell>
-                                <Table.Cell> {item.gender} </Table.Cell>
-                                <Table.Cell> {item.class_name} </Table.Cell>
-                            </Table.Row>
-                        ))}
-                    </Table.Body>
+                <Table celled sortable>
+                    <TableHeader
+                        isSelectAll={this.isSelectAll}
+                        selectAll={this.selectAll}
+                        header={header}
+                    />
+                    {loading ?
+                        <Table.Cell colSpan={16}><LoaderActive /></Table.Cell> :
+                        <Table.Body>
+                            {list.map((item, stt) => (
+                                <Table.Row key={stt}>
+                                    <Table.Cell> {(paging.pageIndex - 1) * paging.pageSize + stt + 1} </Table.Cell>
+                                    <Table.Cell>
+                                        <Checkbox className='margin-right-5' checked={arrayCodeDelete.includes(item.student_code)} onChange={(e, data) => { this.select(data.checked, item.student_code) }} />
+                                        <Icon
+                                            className="margin-5 icon-button "
+                                            name="pencil"
+                                            color="blue"
+                                            onClick={() => {
+                                                this.handleClickNew(item);
+                                            }}
+                                        />
+                                        <Icon
+                                            className="margin-5 icon-button "
+                                            name="trash alternate"
+                                            color="red"
+                                            onClick={() => {
+                                                this.openModalDelete(
+                                                    item.student_code
+                                                );
+                                            }}
+                                        />
+                                    </Table.Cell>
+                                    <Table.Cell> {item.student_code} </Table.Cell>
+                                    <Table.Cell> {item.student_name} </Table.Cell>
+                                    <Table.Cell> {moment(item.date_of_birth).format('DD/MM/YYYY')} </Table.Cell>
+                                    <Table.Cell> {item.gender} </Table.Cell>
+                                    <Table.Cell> {item.class_name} </Table.Cell>
+                                </Table.Row>
+                            ))}
+                        </Table.Body>
+                    }
+
                 </Table>
                 <PageSize onPageSizeChange={this.onPageSizeChange} value={paging.pageSize} />
                 <Pagination
@@ -286,6 +289,7 @@ class Student extends Component {
 const mapStateToProps = (state) => ({
     list: state.category.list,
     paging: state.category.paging,
-    optionClass: state.category.optionClass
+    optionClass: state.category.optionClass,
+    loading: state.category.loading
 });
 export default connect(mapStateToProps)(Student);

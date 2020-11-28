@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import TopMenu from './components/menu/top';
 import LeftSidebar from './components/menu/sidebar';
+import Login from './components/login/login';
 
 import AllRoutes from './routes';
 
@@ -16,6 +17,7 @@ class App extends Component {
     }
 
     render() {
+        let url = window.location.href;
         return (
             <div className="unstackable warp">
                 <ReduxToastr
@@ -27,26 +29,28 @@ class App extends Component {
                     transitionOut="fadeOut"
                     progressBar
                     closeOnToastrClick />
-                <Router>
-                    <TopMenu />
-                    <Sidebar.Pushable as={Segment} attached="bottom">
-                        <LeftSidebar />
-                        <Sidebar.Pusher>
-                            <Segment basic style={{ minHeight: '100vh' }} className={'main'}>
-                                <Switch>
-                                    {AllRoutes.map(r =>
-                                        <Route
-                                            exact={r.exact}
-                                            path={r.path}
-                                            component={r.component}
-                                            key={r.key}
-                                        />
-                                    )}
-                                </Switch>
-                            </Segment>
-                        </Sidebar.Pusher>
-                    </Sidebar.Pushable>
-                </Router>
+                {url.match(/login/gi) ? <Login /> :
+                    <Router>
+                        <TopMenu />
+                        <Sidebar.Pushable as={Segment} attached="bottom">
+                            <LeftSidebar />
+                            <Sidebar.Pusher>
+                                <Segment basic style={{ minHeight: '100vh' }} className={'main'}>
+                                    <Switch>
+                                        {AllRoutes.map(r =>
+                                            <Route
+                                                exact={r.exact}
+                                                path={r.path}
+                                                component={r.component}
+                                                key={r.key}
+                                            />
+                                        )}
+                                    </Switch>
+                                </Segment>
+                            </Sidebar.Pusher>
+                        </Sidebar.Pushable>
+                    </Router>}
+
             </div>
         );
     }

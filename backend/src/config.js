@@ -11,5 +11,12 @@ export default {
     http:{
         port: 3001,
         host: "localhost"
-    }
+    },
+    jwt: {
+        secret_key: '10 điểm đồ án',
+        options: {
+            expiresIn: 60*60, //giay
+            algorithm: 'HS256'
+        }
+    } 
 }

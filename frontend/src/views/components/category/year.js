@@ -13,10 +13,12 @@ import ImportCSV from "../common/modal_import_csv";
 import ModalInsert from "../common/modal_insert";
 import ModalDelete from "../common/modal_delete";
 import PageSize from "../common/page_size";
+import TableHeader from "../common/table_header";
 import CategoryAction from "../../../state/ducks/category/actions";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import moment from 'moment';
+import LoaderActive from "../common/loader";
 
 class Year extends Component {
     constructor(props) {
@@ -56,7 +58,6 @@ class Year extends Component {
             });
         } else {
             this.setState({
-                open: true,
                 id: item.id,
                 titleModal: "Sửa năm học",
                 type: "edit",
@@ -149,7 +150,7 @@ class Year extends Component {
     }
 
     render() {
-        let { list, paging = {
+        let { list = [], loading = false, paging = {
             pageSize: 25,
             pageIndex: 1,
             totalPage: 1,
@@ -159,6 +160,10 @@ class Year extends Component {
         let fields = [
             { name: "Mã năm học", code: "year_code" },
             { name: "Tên năm học", code: "year_name" }
+        ];
+        let header = [
+            { name: 'Mã năm học', code: 'year_code', width: 6 },
+            { name: 'Tên năm học', code: 'year_name', width: 7 }
         ];
         return (
             <Segment>
@@ -192,48 +197,45 @@ class Year extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <Table celled>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell> STT </Table.HeaderCell>
-                            <Table.HeaderCell>
-                                <Checkbox className='margin-right-5' checked={this.isSelectAll()} onChange={this.selectAll} />
-                                Action
-                            </Table.HeaderCell>
-                            <Table.HeaderCell> Mã năm học </Table.HeaderCell>
-                            <Table.HeaderCell> Tên năm học </Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {list.map((item, stt) => (
-                            <Table.Row key={stt}>
-                                <Table.Cell> {(paging.pageIndex - 1) * paging.pageSize + stt + 1} </Table.Cell>
-                                <Table.Cell>
-                                    <Checkbox className='margin-right-5' checked={arrayCodeDelete.includes(item.year_code)} onChange={(e, data) => { this.select(data.checked, item.year_code) }} />
-                                    <Icon
-                                        className="margin-5 icon-button "
-                                        name="pencil"
-                                        color="blue"
-                                        onClick={() => {
-                                            this.handleClickNew(item);
-                                        }}
-                                    />
-                                    <Icon
-                                        className="margin-5 icon-button "
-                                        name="trash alternate"
-                                        color="red"
-                                        onClick={() => {
-                                            this.openModalDelete(
-                                                item.year_code
-                                            );
-                                        }}
-                                    />
-                                </Table.Cell>
-                                <Table.Cell> {item.year_code} </Table.Cell>
-                                <Table.Cell> {item.year_name} </Table.Cell>
-                            </Table.Row>
-                        ))}
-                    </Table.Body>
+                <Table celled sortable>
+                    <TableHeader
+                        isSelectAll={this.isSelectAll}
+                        selectAll={this.selectAll}
+                        header={header}
+                    />
+                    {loading ?
+                        <Table.Cell colSpan={16}><LoaderActive /></Table.Cell> :
+                        <Table.Body>
+                            {list.map((item, stt) => (
+                                <Table.Row key={stt}>
+                                    <Table.Cell> {(paging.pageIndex - 1) * paging.pageSize + stt + 1} </Table.Cell>
+                                    <Table.Cell>
+                                        <Checkbox className='margin-right-5' checked={arrayCodeDelete.includes(item.year_code)} onChange={(e, data) => { this.select(data.checked, item.year_code) }} />
+                                        <Icon
+                                            className="margin-5 icon-button "
+                                            name="pencil"
+                                            color="blue"
+                                            onClick={() => {
+                                                this.handleClickNew(item);
+                                            }}
+                                        />
+                                        <Icon
+                                            className="margin-5 icon-button "
+                                            name="trash alternate"
+                                            color="red"
+                                            onClick={() => {
+                                                this.openModalDelete(
+                                                    item.year_code
+                                                );
+                                            }}
+                                        />
+                                    </Table.Cell>
+                                    <Table.Cell> {item.year_code} </Table.Cell>
+                                    <Table.Cell> {item.year_name} </Table.Cell>
+                                </Table.Row>
+                            ))}
+                        </Table.Body>
+                    }
                 </Table>
                 <PageSize onPageSizeChange={this.onPageSizeChange} value={paging.pageSize} />
                 <Pagination
@@ -255,5 +257,6 @@ class Year extends Component {
 const mapStateToProps = (state) => ({
     list: state.category.list,
     paging: state.category.paging,
+    loading: state.category.loading
 });
 export default connect(mapStateToProps)(Year);

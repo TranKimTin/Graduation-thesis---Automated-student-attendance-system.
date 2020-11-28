@@ -23,6 +23,7 @@ class ModalInsert extends Component {
         let { handleSave, fields = [], dataInsert = {} } = this.props;
         let data = [];
         for (let item of fields) {
+            if(item.ignore) continue;
             if (!dataInsert[item.code] || dataInsert[item.code].trim() === '') return toastr.error(`${item.name} không hợp lệ`);
             data.push(dataInsert[item.code]);
         }
@@ -35,17 +36,17 @@ class ModalInsert extends Component {
         dispatch(CategoryAction.changeValue({ name: data.name, value: data.value }));
     }
 
-    onKeyPress(e){
-        if(e.key === 'Enter'){
+    onKeyPress(e) {
+        if (e.key === 'Enter') {
             this.save();
         }
     }
     render() {
-        let { open = false, fields = [], titleModal, dataInsert, handleNew } = this.props;
+        let { open = false, fields = [], titleModal, dataInsert, handleNew, content='Thêm' } = this.props;
         return (
             <div>
                 <Button
-                    content="Thêm"
+                    content={content}
                     primary
                     onClick={() => {
                         handleNew();
@@ -55,39 +56,40 @@ class ModalInsert extends Component {
                     closeIcon
                     open={open}
                     onClose={this.closeModal}
-                    size="small"
+                    size={(fields.length > 4) ? 'large' : 'small'}
                 >
                     <Header icon="group" content={titleModal} />
                     <Modal.Content>
                         <Grid>
                             {fields.map((item, i) => (
-                                <Grid.Row key={i}>
-                                    <Grid.Column width={16}>
-                                        <label><strong>{item.name}</strong></label>
-                                        {!item.options &&
-                                            <Input
-                                                value={dataInsert[item.code]}
-                                                name={item.code}
-                                                onChange={this.changeValue}
-                                                fluid
-                                                type={item.type || 'text'}
-                                                onKeyPress={this.onKeyPress}
-                                            />
-                                        }
-                                        {item.options &&
-                                            <Dropdown
-                                                options={item.options}
-                                                placeholder={item.name}
-                                                value={dataInsert[item.code]}
-                                                name={item.code}
-                                                onChange={this.changeValue}
-                                                fluid
-                                                search
-                                                selection
-                                            />
-                                        }
-                                    </Grid.Column>
-                                </Grid.Row>
+                                // <Grid.Row key={i}>
+                                <Grid.Column width={(fields.length > 4 && !item.fluid) ? 8 : 16} key={i}>
+                                    <label><strong>{item.name}</strong></label>
+                                    {!item.options && !item.ignore &&
+                                        <Input
+                                            value={dataInsert[item.code]}
+                                            name={item.code}
+                                            onChange={this.changeValue}
+                                            fluid
+                                            type={item.type || 'text'}
+                                            onKeyPress={this.onKeyPress}
+                                        />
+                                    }
+                                    {item.options && !item.ignore &&
+                                        <Dropdown
+                                            options={item.options}
+                                            placeholder={item.name}
+                                            value={dataInsert[item.code]}
+                                            name={item.code}
+                                            onChange={this.changeValue}
+                                            fluid
+                                            search
+                                            selection
+                                        />
+                                    }
+                                    {item.ignore && item.tag}
+                                </Grid.Column>
+                                // </Grid.Row>
                             ))}
                         </Grid>
                     </Modal.Content>

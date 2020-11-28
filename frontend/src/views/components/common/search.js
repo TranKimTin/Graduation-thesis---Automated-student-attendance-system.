@@ -23,6 +23,7 @@ class Search extends React.Component {
     render() {
         return (
             <Input loading={this.state.loadding}
+                   fluid
                    icon='search'
                    placeholder='Search...'
                    onChange={this.searchBox.bind(this)}

@@ -10,28 +10,28 @@ function checkResult(result) {
 
 ///////////////////CLASS>///////////////////////////////////
 function getClass(params = {}) {
-    let url = `${BACKEND_URL}/api/class`;
+    let url = `${BACKEND_URL}/api/category/class`;
     return axios.get(url, params).then(
         result => checkResult(result)
     );
 }
 
 function insertClass(params = {}) {
-    let url = `${BACKEND_URL}/api/class`;
+    let url = `${BACKEND_URL}/api/category/class`;
     return axios.post(url, params).then(
         result => checkResult(result)
     );
 }
 
 function updateClass(params = {}) {
-    let url = `${BACKEND_URL}/api/class`;
+    let url = `${BACKEND_URL}/api/category/class`;
     return axios.put(url, params).then(
         result => checkResult(result)
     );
 }
 
 function deleteClass(params = {}) {
-    let url = `${BACKEND_URL}/api/class`;
+    let url = `${BACKEND_URL}/api/category/class`;
     return axios.delete(url, params).then(
         result => checkResult(result)
     );
@@ -39,28 +39,28 @@ function deleteClass(params = {}) {
 
 //////////////////////STUDENT///////////////////////////
 function getStudent(params = {}) {
-    let url = `${BACKEND_URL}/api/student`;
+    let url = `${BACKEND_URL}/api/category/student`;
     return axios.get(url, params).then(
         result => checkResult(result)
     );
 }
 
 function insertStudent(params = {}) {
-    let url = `${BACKEND_URL}/api/student`;
+    let url = `${BACKEND_URL}/api/category/student`;
     return axios.post(url, params).then(
         result => checkResult(result)
     );
 }
 
 function updateStudent(params = {}) {
-    let url = `${BACKEND_URL}/api/student`;
+    let url = `${BACKEND_URL}/api/category/student`;
     return axios.put(url, params).then(
         result => checkResult(result)
     );
 }
 
 function deleteStudent(params = {}) {
-    let url = `${BACKEND_URL}/api/student`;
+    let url = `${BACKEND_URL}/api/category/student`;
     return axios.delete(url, params).then(
         result => checkResult(result)
     );
@@ -68,28 +68,28 @@ function deleteStudent(params = {}) {
 
 /////////////////////////////TEACHER//////////////////////////////////////
 function getTeacher(params = {}) {
-    let url = `${BACKEND_URL}/api/teacher`;
+    let url = `${BACKEND_URL}/api/category/teacher`;
     return axios.get(url, params).then(
         result => checkResult(result)
     );
 }
 
 function insertTeacher(params = {}) {
-    let url = `${BACKEND_URL}/api/teacher`;
+    let url = `${BACKEND_URL}/api/category/teacher`;
     return axios.post(url, params).then(
         result => checkResult(result)
     );
 }
 
 function updateTeacher(params = {}) {
-    let url = `${BACKEND_URL}/api/teacher`;
+    let url = `${BACKEND_URL}/api/category/teacher`;
     return axios.put(url, params).then(
         result => checkResult(result)
     );
 }
 
 function deleteTeacher(params = {}) {
-    let url = `${BACKEND_URL}/api/teacher`;
+    let url = `${BACKEND_URL}/api/category/teacher`;
     return axios.delete(url, params).then(
         result => checkResult(result)
     );
@@ -97,28 +97,28 @@ function deleteTeacher(params = {}) {
 
 /////////////////SUBJECT///////////////////////////
 function getSubject(params = {}) {
-    let url = `${BACKEND_URL}/api/subject`;
+    let url = `${BACKEND_URL}/api/category/subject`;
     return axios.get(url, params).then(
         result => checkResult(result)
     );
 }
 
 function insertSubject(params = {}) {
-    let url = `${BACKEND_URL}/api/subject`;
+    let url = `${BACKEND_URL}/api/category/subject`;
     return axios.post(url, params).then(
         result => checkResult(result)
     );
 }
 
 function updateSubject(params = {}) {
-    let url = `${BACKEND_URL}/api/subject`;
+    let url = `${BACKEND_URL}/api/category/subject`;
     return axios.put(url, params).then(
         result => checkResult(result)
     );
 }
 
 function deleteSubject(params = {}) {
-    let url = `${BACKEND_URL}/api/subject`;
+    let url = `${BACKEND_URL}/api/category/subject`;
     return axios.delete(url, params).then(
         result => checkResult(result)
     );
@@ -126,28 +126,28 @@ function deleteSubject(params = {}) {
 
 ///////////////////////YEAR//////////////////////////////
 function getYear(params = {}) {
-    let url = `${BACKEND_URL}/api/year`;
+    let url = `${BACKEND_URL}/api/category/year`;
     return axios.get(url, params).then(
         result => checkResult(result)
     );
 }
 
 function insertYear(params = {}) {
-    let url = `${BACKEND_URL}/api/year`;
+    let url = `${BACKEND_URL}/api/category/year`;
     return axios.post(url, params).then(
         result => checkResult(result)
     );
 }
 
 function updateYear(params = {}) {
-    let url = `${BACKEND_URL}/api/year`;
+    let url = `${BACKEND_URL}/api/category/year`;
     return axios.put(url, params).then(
         result => checkResult(result)
     );
 }
 
 function deleteYear(params = {}) {
-    let url = `${BACKEND_URL}/api/year`;
+    let url = `${BACKEND_URL}/api/category/year`;
     return axios.delete(url, params).then(
         result => checkResult(result)
     );
@@ -155,28 +155,28 @@ function deleteYear(params = {}) {
 
 ////////////////////SEMESTER////////////////////////////
 function getSemester(params = {}) {
-    let url = `${BACKEND_URL}/api/semester`;
+    let url = `${BACKEND_URL}/api/category/semester`;
     return axios.get(url, params).then(
         result => checkResult(result)
     );
 }
 
 function insertSemester(params = {}) {
-    let url = `${BACKEND_URL}/api/semester`;
+    let url = `${BACKEND_URL}/api/category/semester`;
     return axios.post(url, params).then(
         result => checkResult(result)
     );
 }
 
 function updateSemester(params = {}) {
-    let url = `${BACKEND_URL}/api/semester`;
+    let url = `${BACKEND_URL}/api/category/semester`;
     return axios.put(url, params).then(
         result => checkResult(result)
     );
 }
 
 function deleteSemester(params = {}) {
-    let url = `${BACKEND_URL}/api/semester`;
+    let url = `${BACKEND_URL}/api/category/semester`;
     return axios.delete(url, params).then(
         result => checkResult(result)
     );
