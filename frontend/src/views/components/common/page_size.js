@@ -36,7 +36,6 @@ class Pagesize extends React.Component {
                     className='margin-left-5'
                 />
             </span>
-
         );
     }
 }

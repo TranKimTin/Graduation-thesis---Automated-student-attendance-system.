@@ -112,7 +112,7 @@ class SectionClass extends Component {
 
     actionImport(data) {
         let { dispatch } = this.props;
-        dispatch(ConfigureAction.insertSectionClass(data));
+        dispatch(ConfigureAction.importSectionClass(data));
     }
 
     onPageChange(e, { activePage }) {

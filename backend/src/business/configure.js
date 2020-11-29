@@ -112,13 +112,43 @@ export async function insertSectionClass(args) {
         item[3] = year_id[item[3]];  //item[3]: id_year
         item[4] = semester_id[item[4]];  //item[4]: id_semester
     }
-
     let id = await mysql.query(`INSERT INTO section_class(section_class_name, section_class_code, id_subject, id_year, id_semester) VALUES ?`, [sectionClass]);
     id = id.insertId;
     for (let item of listSchedule) {
         item.unshift(id);
     }
     return await mysql.query('INSERT INTO schedule(id_section_class, start_time, end_time) VALUES ?;', [listSchedule]);
+}
+
+export async function importSectionClass(args){
+    console.log(args);
+    let [id_subject, id_year, id_semester] = await Promise.all([
+        mysql.query(`SELECT id, subject_code FROM subject`),
+        mysql.query(`SELECT id, year_code FROM year`),
+        mysql.query(`SELECT id, semester_code FROM semester`),
+    ]);
+
+    id_subject = id_subject.reduce((a, b) => {
+        a[b.subject_code] = b.id;
+        return a;
+    }, {});
+
+    id_year = id_year.reduce((a, b) => {
+        a[b.year_code] = b.id;
+        return a;
+    }, {});
+
+    id_semester = id_semester.reduce((a, b) => {
+        a[b.semester_code] = b.id;
+        return a;
+    }, {});
+
+    for (let item of args) {
+        item[2] = id_subject[item[2]];  //item[2]: id_subject
+        item[3] = id_year[item[3]];  //item[3]: id_year
+        item[4] = id_semester[item[4]];  //item[4]: id_semester
+    }
+    return await mysql.query(`INSERT INTO section_class(section_class_code, section_class_name, id_subject, id_year, id_semester) VALUES ?`, [args]);
 }
 
 export async function updateSectionClass(args) {
@@ -273,6 +303,7 @@ export async function getTeach(args) {
 }
 
 export async function insertTeach(args) {
+   // return [];
     let [id_teacher, id_section_class] = await Promise.all([
         mysql.query(`SELECT id, teacher_code FROM teacher`),
         mysql.query(`SELECT id, section_class_code FROM section_class`),
@@ -292,6 +323,7 @@ export async function insertTeach(args) {
         item[0] = id_teacher[item[0]];  //item[0]: id_teacher
         item[1] = id_section_class[item[1]];  //item[1]: id_section_class
     }
+    console.log(args);
     return await mysql.query(`INSERT INTO teach(id_teacher, id_section_class) VALUES ?`, [args]);
 }
 

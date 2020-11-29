@@ -65,6 +65,19 @@ export async function insertSectionClass(req, res, next) {
     }
 }
 
+export async function importSectionClass(req, res, next) {
+    try {
+        let { body } = req;
+        let response = await Configure.importSectionClass(body);
+        res.sendJson({
+            data: response.data
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.sendError({ code: error.code, message: error.message || undefined });
+    }
+}
+
 export async function updateSectionClass(req, res, next) {
     try {
         let { body } = req;

@@ -32,6 +32,7 @@ routes.post('/category/year', requireToken, requireRoleAdmin, Category.insertYea
 routes.post('/category/semester', requireToken, requireRoleAdmin, Category.insertSemester);
 
 routes.post('/configure/section-class', requireToken, requireRoleAdmin, Configure.insertSectionClass);
+routes.post('/configure/import-section-class', requireToken, requireRoleAdmin, Configure.importSectionClass);
 routes.post('/configure/study', requireToken, requireRoleAdmin, Configure.insertStudy);
 routes.post('/configure/teach', requireToken, requireRoleAdmin, Configure.insertTeach);
 

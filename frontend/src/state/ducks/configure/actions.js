@@ -54,6 +54,17 @@ const insertSectionClass = (params) => {
     };
 };
 
+const importSectionClass = (params) => {
+    return function (dispatch) {
+        dispatch({ type: type.WAITTING_LOAD_DATA });
+        return api.importSectionClass(params)
+            .then(result => {
+                toastr.success("Import lớp học phần thành công");
+                dispatch(getSectionClass());
+            })
+            .catch(error => toastr.error(error.message));
+    };
+};
 const updateSectionClass = (params) => {
     return function (dispatch) {
         dispatch({ type: type.WAITTING_LOAD_DATA });
@@ -177,6 +188,7 @@ export default {
     closeModalDelete,
     getSectionClass,
     insertSectionClass,
+    importSectionClass,
     updateSectionClass,
     deleteSectionClass,
     getStudy,

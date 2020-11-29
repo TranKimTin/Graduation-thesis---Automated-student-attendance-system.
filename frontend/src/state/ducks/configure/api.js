@@ -23,6 +23,13 @@ function insertSectionClass(params = {}) {
     );
 }
 
+function importSectionClass(params = {}) {
+    let url = `${BACKEND_URL}/api/configure/import-section-class`;
+    return axios.post(url, params).then(
+        result => checkResult(result)
+    );
+}
+
 function updateSectionClass(params = {}) {
     let url = `${BACKEND_URL}/api/configure/section-class`;
     return axios.put(url, params).then(
@@ -97,6 +104,7 @@ function deleteTeach(params = {}) {
 export default {
     getSectionClass,
     insertSectionClass,
+    importSectionClass,
     updateSectionClass,
     deleteSectionClass,
     getStudy,
