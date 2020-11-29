@@ -323,7 +323,6 @@ export async function insertTeach(args) {
         item[0] = id_teacher[item[0]];  //item[0]: id_teacher
         item[1] = id_section_class[item[1]];  //item[1]: id_section_class
     }
-    console.log(args);
     return await mysql.query(`INSERT INTO teach(id_teacher, id_section_class) VALUES ?`, [args]);
 }
 
