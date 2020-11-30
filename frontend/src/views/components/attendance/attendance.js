@@ -89,7 +89,7 @@ class Attendance extends Component {
         if (list.length > 0 && list[0].attendance) {
             date = list[0].attendance.map(item => moment(item.start_time).format('DD/MM/YY'));
         }
-
+        console.log(list)
         return (
             <Segment>
                 <Header> Điểm danh </Header>
@@ -114,7 +114,7 @@ class Attendance extends Component {
                     </Grid.Row>
                 </Grid>
                 <div className='overflow'>
-                    <Table celled sortable>
+                    <Table celled sortable selectable>
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell width={1}>STT</Table.HeaderCell>
@@ -123,7 +123,7 @@ class Attendance extends Component {
                                     sorted={(columnSort === 'student_name') ? direction : null}
                                     onClick={() => dispatch({ type: 'CHANGE_SORT', columnSort: 'student_name' })}
                                 >
-                                    Họ tên
+                                    Họ tên sinh viên
                                     </Table.HeaderCell>
                                 <Table.HeaderCell
                                     width={2}
@@ -145,8 +145,8 @@ class Attendance extends Component {
                                         <Table.Cell> {(paging.pageIndex - 1) * paging.pageSize + stt + 1} </Table.Cell>
                                         <Table.Cell>{item.student_name}</Table.Cell>
                                         <Table.Cell>{item.student_code}</Table.Cell>
-                                        {item.attendance && item.attendance.length && item.attendance.map((i, ii) => (
-                                            <Table.Cell key={ii}>
+                                        {item.attendance && item.attendance.length > 0 && item.attendance.map((i, ii) => (
+                                            <Table.Cell key={ii} textAlign='center'>
                                                 <Popup
                                                     trigger={<Icon className='icon-button'
                                                         name={i.status}

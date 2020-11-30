@@ -195,10 +195,10 @@ class Study extends Component {
         ];
         let header = [
             { name: 'Mã sinh viên', code: 'student_code', width: 3 },
-            { name: 'Họ Tên', code: 'student_name', width: 4 },
+            { name: 'Họ Tên', code: 'student_name', width: 3 },
             { name: 'Lớp học phần', code: 'section_class_name', width: 2 },
             { name: 'Môn học', code: 'subject_name', width: 2 },
-            { name: 'Năm học', code: 'year_name', width: 2 },
+            { name: 'Năm học', code: 'year_name', width: 1 },
             { name: 'Học kỳ', code: 'semester_name', width: 2 }
         ];
         return (
@@ -233,7 +233,7 @@ class Study extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <Table celled sortable>
+                <Table celled sortable selectable>
                     <TableHeader
                         isSelectAll={this.isSelectAll}
                         selectAll={this.selectAll}

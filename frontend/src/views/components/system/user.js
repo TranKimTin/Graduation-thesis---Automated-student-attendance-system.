@@ -77,20 +77,22 @@ class User extends Component {
     handleSave(data) {
         let { dispatch } = this.props;
         let { type, id } = this.state;
+        if (data[1] !== data[2]) return toastr.error("Mật khẩu không khớp");
+        data = [data[0], data[1], data[3]];
         if (type === 'new') {
-            dispatch(SystemAction.insertYear([data]));
+            dispatch(SystemAction.insertUser([data]));
         }
         if (type === 'edit') {
             data.push(id);
-            dispatch(SystemAction.updateYear(data));
+            dispatch(SystemAction.updateUser(data));
         }
     }
 
     handleDelete(data) {
         let { dispatch } = this.props;
 
-        if (data.length === 0) return toastr.error("Chưa chọn năm học nào");
-        dispatch(SystemAction.deleteYear({ data }));
+        if (data.length === 0) return toastr.error("Chưa chọn tài khoản nào");
+        dispatch(SystemAction.deleteUser({ data }));
         this.setState({
             codeDelete: '',
             arrayCodeDelete: []
@@ -99,7 +101,7 @@ class User extends Component {
 
     actionImport(data) {
         let { dispatch } = this.props;
-        dispatch(SystemAction.insertYear(data));
+        dispatch(SystemAction.insertUser(data));
     }
 
     onPageChange(e, { activePage }) {
@@ -159,8 +161,8 @@ class User extends Component {
         let data = (codeDelete !== '') ? [codeDelete] : arrayCodeDelete;
         let fields = [
             { name: "Tên tài khoản", code: "username" },
-            { name: "Mật khẩu", code: "password" },
-            { name: "Nhập lại mật khẩu", code: "repeatPassword" },
+            { name: "Mật khẩu", code: "password", type: 'password' },
+            { name: "Nhập lại mật khẩu", code: "repeatPassword", type: 'password' },
             {
                 name: "Quyền",
                 code: "role_code",
@@ -208,7 +210,7 @@ class User extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <Table celled sortable>
+                <Table celled sortable selectable>
                     <TableHeader
                         isSelectAll={this.isSelectAll}
                         selectAll={this.selectAll}

@@ -6,7 +6,7 @@ import moment from 'moment';
 export async function getSectionClass(req, res, next) {
     try {
         let pageSize = req.query.pageSize * 1 || 25;
-        let pageIndex = req.query.pageIndex * 1 || 1;
+        let pageIndex = req.query.pageIndex * 1 || 2;
         let search = req.query.search || '';
         let paging = {
             pageSize: pageSize,

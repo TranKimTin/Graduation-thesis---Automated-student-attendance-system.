@@ -41,6 +41,7 @@ routes.post('/logout', requireToken, User.logout);
 
 routes.post('/attendance/:id_student/:id_schedule', requireToken, requireRoleTeacher, Attendance.attendance);
 
+routes.post('/system/user', requireToken, requireRoleAdmin, User.insertUser);
 
 routes.put('/category/class', requireToken, requireRoleAdmin, Category.updateClass);
 routes.put('/category/student', requireToken, requireRoleAdmin, Category.updateStudent);
@@ -53,6 +54,8 @@ routes.put('/configure/section-class', requireToken, requireRoleAdmin, Configure
 routes.put('/configure/study', requireToken, requireRoleAdmin, Configure.updateStudy);
 routes.put('/configure/teach', requireToken, requireRoleAdmin, Configure.updateTeach);
 
+routes.put('/system/user', requireToken, requireRoleAdmin, User.updateUser);
+
 routes.delete('/category/class', requireToken, requireRoleAdmin, Category.deleteClass);
 routes.delete('/category/student', requireToken, requireRoleAdmin, Category.deleteStudent);
 routes.delete('/category/teacher', requireToken, requireRoleAdmin, Category.deleteTeacher);
@@ -63,5 +66,7 @@ routes.delete('/category/semester', requireToken, requireRoleAdmin, Category.del
 routes.delete('/configure/section-class', requireToken, requireRoleAdmin, Configure.deleteSectionClass);
 routes.delete('/configure/study', requireToken, requireRoleAdmin, Configure.deleteStudy);
 routes.delete('/configure/teach', requireToken, requireRoleAdmin, Configure.deleteTeach);
+
+routes.delete('/system/user', requireToken, requireRoleAdmin, User.deleteUser);
 
 export default routes;

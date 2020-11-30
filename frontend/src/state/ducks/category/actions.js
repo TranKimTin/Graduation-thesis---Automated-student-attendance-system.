@@ -38,7 +38,7 @@ const getClass = (params) => {
         dispatch({ type: type.WAITTING_LOAD_DATA });
         return api.getClass(params)
             .then(result => dispatch({ type: type.GET_DATA_SUCCESS, data: result }))
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -50,7 +50,7 @@ const insertClass = (params) => {
                 toastr.success("Thêm lớp thành công");
                 dispatch(getClass());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -62,7 +62,7 @@ const updateClass = (params) => {
                 toastr.success("Sửa lớp thành công");
                 dispatch(getClass());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -74,7 +74,7 @@ const deleteClass = (params) => {
                 toastr.success("Xóa lớp thành công");
                 dispatch(getClass());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -85,7 +85,7 @@ const getStudent = (params) => {
         dispatch({ type: type.WAITTING_LOAD_DATA });
         return api.getStudent(params)
             .then(result => dispatch({ type: type.GET_DATA_SUCCESS, data: result }))
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -97,7 +97,7 @@ const insertStudent = (params) => {
                 toastr.success("Thêm sinh viên thành công");
                 dispatch(getStudent());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -109,7 +109,7 @@ const updateStudent = (params) => {
                 toastr.success("Sửa sinh viên thành công");
                 dispatch(getStudent());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -121,7 +121,7 @@ const deleteStudent = (params) => {
                 toastr.success("Xóa sinh viên thành công");
                 dispatch(getStudent());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 

@@ -197,7 +197,7 @@ class Semester extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <Table celled sortable>
+                <Table celled sortable selectable>
                     <TableHeader
                         isSelectAll={this.isSelectAll}
                         selectAll={this.selectAll}

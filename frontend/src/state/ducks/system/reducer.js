@@ -9,7 +9,9 @@ const initialState = {
         pageIndex: 1,
         totalPage: 1,
     },
-    optionRole: []
+    optionRole: [],
+    columnSort: null, 
+    direction: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,7 +27,14 @@ const reducer = (state = initialState, action) => {
                 loading: false,
                 list: action.data.data,
                 ...action.data.options,
-                paging: action.data.paging
+                paging: action.data.paging,
+                columnSort: null, 
+                direction: null
+            };
+        case type.GET_DATA_ERROR:
+            return {
+                ...state,
+                loading: false
             };
         case type.CHANGE_SORT:
             if (state.columnSort === action.columnSort) {

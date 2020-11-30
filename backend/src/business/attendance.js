@@ -23,10 +23,10 @@ export async function getOptionSectionClass(args) {
 export async function getAttendance(args) {
     let { pageSize, pageIndex, search, id_section_class } = args;
     let sql_select = `SELECT st.student_code, st.student_name, st.id AS id_student, JSON_ARRAYAGG(JSON_OBJECT("start_time", sd.start_time, "end_time", sd.end_time, "timestamp", atd.timestamp, "id_schedule", sd.id, "teacher_name", teacher.teacher_name)) AS attendance
-                        FROM student st 
-                        JOIN study ON st.id = study.id_student
-                        JOIN section_class sc ON sc.id = study.id_section_class
-                        JOIN schedule sd ON sd.id_section_class =  sc.id
+                        FROM section_class sc
+                        LEFT JOIN study ON sc.id = study.id_section_class
+                        LEFT JOIN student st ON st.id = study.id_student
+                        LEFT JOIN schedule sd ON sd.id_section_class =  sc.id
                         LEFT JOIN attendance atd ON atd.id_schedule = sd.id AND atd.id_student = st.id
                         LEFT JOIN teacher ON teacher.id = atd.id_teacher
                         WHERE sc.id = ? AND (st.student_name LIKE ? OR st.student_code LIKE ? )
@@ -43,9 +43,8 @@ export async function getAttendance(args) {
         mysql.query(sql_select, [id_section_class, search, search, pageSize, (pageIndex - 1) * pageSize]),
         mysql.query(sql_count, [id_section_class, search, search])
     ]);
-
     for (let item of data) {
-        item.attendance = JSON.parse(item.attendance);
+        item.attendance = JSON.parse(item.attendance).filter(x => x.start_time !== null);
         item.attendance.sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
         for (let i of item.attendance) {
             if (!i.timestamp) {

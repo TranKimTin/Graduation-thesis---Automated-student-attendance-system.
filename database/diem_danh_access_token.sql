@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: diem_danh
 -- ------------------------------------------------------
--- Server version	8.0.21
+-- Server version	8.0.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,7 @@ CREATE TABLE `access_token` (
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `token` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,6 @@ CREATE TABLE `access_token` (
 
 LOCK TABLES `access_token` WRITE;
 /*!40000 ALTER TABLE `access_token` DISABLE KEYS */;
-INSERT INTO `access_token` VALUES (48,'admin','2020-11-30 00:20:30','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwibmFtZSI6bnVsbCwiY29kZSI6bnVsbCwicm9sZV9uYW1lIjoiQWRtaW4iLCJyb2xlX2NvZGUiOiJST0xFX0FETUlOIiwiaWRfdGVhY2hlciI6bnVsbCwiaWF0IjoxNjA2NjcwNDMwLCJleHAiOjE2MDY2NzQwMzB9.W109mzv80GqMsdzjr3sqLBGZOfWqPZx1K5WGF_dCpd4');
 /*!40000 ALTER TABLE `access_token` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-30  0:31:48
+-- Dump completed on 2020-11-30 16:59:49

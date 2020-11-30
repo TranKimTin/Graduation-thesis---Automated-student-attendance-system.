@@ -7,7 +7,7 @@ const getOptionSectionClass = (params) => {
         dispatch({ type: type.WAITTING_LOAD_DATA });
         return api.getOptionSectionClass(params)
             .then(result => dispatch({ type: type.GET_DATA_SUCCESS, data: result }))
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -16,7 +16,7 @@ const getAttendance = (params) => {
         dispatch({ type: type.WAITTING_LOAD_DATA });
         return api.getAttendance(params)
             .then(result => dispatch({ type: type.GET_DATA_SUCCESS, data: result }))
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -28,7 +28,7 @@ const attendande = (params, params2) => {
                 toastr.success("Điểm danh thành công");
                 dispatch(getAttendance(params2));
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 

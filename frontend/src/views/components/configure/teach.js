@@ -195,10 +195,10 @@ class Teach extends Component {
         ];
         let header = [
             { name: 'Mã giảng viên', code: 'teacher_code', width: 3 },
-            { name: 'Họ Tên', code: 'teacher_name', width: 4 },
+            { name: 'Họ Tên', code: 'teacher_name', width: 3 },
             { name: 'Lớp học phần', code: 'section_class_name', width: 2 },
             { name: 'Môn học', code: 'subject_name', width: 2 },
-            { name: 'Năm học', code: 'year_name', width: 2 },
+            { name: 'Năm học', code: 'year_name', width: 1 },
             { name: 'Học kỳ', code: 'semester_name', width: 2 }
         ];
         return (
@@ -233,7 +233,7 @@ class Teach extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                <Table celled sortable>
+                <Table celled sortable selectable>
                     <TableHeader
                         isSelectAll={this.isSelectAll}
                         selectAll={this.selectAll}

@@ -38,7 +38,7 @@ const getSectionClass = (params) => {
         dispatch({ type: type.WAITTING_LOAD_DATA });
         return api.getSectionClass(params)
             .then(result => dispatch({ type: type.GET_DATA_SUCCESS, data: result }))
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -50,7 +50,7 @@ const insertSectionClass = (params) => {
                 toastr.success("Thêm lớp học phần thành công");
                 dispatch(getSectionClass());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -62,7 +62,7 @@ const importSectionClass = (params) => {
                 toastr.success("Import lớp học phần thành công");
                 dispatch(getSectionClass());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 const updateSectionClass = (params) => {
@@ -73,7 +73,7 @@ const updateSectionClass = (params) => {
                 toastr.success("Sửa lớp học phần thành công");
                 dispatch(getSectionClass());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -85,7 +85,7 @@ const deleteSectionClass = (params) => {
                 toastr.success("Xóa lớp học phần thành công");
                 dispatch(getSectionClass());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -95,7 +95,7 @@ const getStudy = (params) => {
         dispatch({ type: type.WAITTING_LOAD_DATA });
         return api.getStudy(params)
             .then(result => dispatch({ type: type.GET_DATA_SUCCESS, data: result }))
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -107,7 +107,7 @@ const insertStudy = (params) => {
                 toastr.success("Đăng ký học thành công");
                 dispatch(getStudy());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -119,7 +119,7 @@ const updateStudy = (params) => {
                 toastr.success("Sửa thông tin đăng ký học thành công");
                 dispatch(getStudy());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -131,7 +131,7 @@ const deleteStudy = (params) => {
                 toastr.success("Xóa thông tin đăng ký học thành công");
                 dispatch(getStudy());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -141,7 +141,7 @@ const getTeach = (params) => {
         dispatch({ type: type.WAITTING_LOAD_DATA });
         return api.getTeach(params)
             .then(result => dispatch({ type: type.GET_DATA_SUCCESS, data: result }))
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -153,7 +153,7 @@ const insertTeach = (params) => {
                 toastr.success("Thêm lịch dạy thành công");
                 dispatch(getTeach());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -165,7 +165,7 @@ const updateTeach = (params) => {
                 toastr.success("Sửa lịch giảng dạy thành công");
                 dispatch(getTeach());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 
@@ -177,7 +177,7 @@ const deleteTeach = (params) => {
                 toastr.success("Xóa lịch giảng dạy thành công");
                 dispatch(getTeach());
             })
-            .catch(error => toastr.error(error.message));
+            .catch(error => { dispatch({ type: type.GET_DATA_ERROR }); toastr.error(error.message) });
     };
 };
 export default {

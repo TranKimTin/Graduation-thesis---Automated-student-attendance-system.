@@ -61,9 +61,11 @@ export async function logout(args) {
     throw { code: 401, message: 'Đăng xuất thành công' }
 }
 
+//////////////////////USER//////////////////////////////////
+
 export async function getUser(args) {
     let { pageSize, pageIndex, search } = args;
-    let sql_select = `SELECT u.username, r.role_name, t.teacher_name
+    let sql_select = `SELECT u.id, u.username, r.role_name, role_code, t.teacher_name
                         FROM user u 
                         JOIN role r ON r.id = u.role
                         LEFT JOIN teacher t ON t.teacher_code = u.username
@@ -88,4 +90,31 @@ export async function getUser(args) {
         count,
         options: { optionRole }
     };
+}
+
+export async function insertUser(args) {
+    let role_id = await mysql.query(`SELECT id, role_code FROM role`);
+    role_id = role_id.reduce((a, b) => {
+        a[b.role_code] = b.id;
+        return a;
+    }, {})
+    for (let item of args) {
+        item[1] = md5(item[1]);
+        item[2] = role_id[item[2]];  //item[2]: role_code
+    }
+    return await mysql.query(`INSERT INTO user(username, password, role) VALUES ?`, [args]);
+}
+
+export async function updateUser(args) {
+    let [{ id }] = await mysql.query(`SELECT id FROM role where role_code = ? LIMIT 1`, [args[2]]);
+    args[1] = md5(args[1]);
+    args[2] = id;
+    return await mysql.query(`UPDATE user SET 
+                                username = ?, password = ?, role = ?
+                                WHERE id = ?`, args);
+}
+
+export async function deleteUser(args) {
+    await mysql.query(`DELETE FROM user WHERE username IN (?)`, [args]);
+    return await mysql.query(`DELETE FROM access_token WHERE username IN (?)`, [args]);
 }

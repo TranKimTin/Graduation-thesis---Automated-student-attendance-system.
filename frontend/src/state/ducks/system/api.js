@@ -15,6 +15,30 @@ function getUser(params = {}) {
     );
 }
 
+function insertUser(params = {}) {
+    let url = `${BACKEND_URL}/api/system/user`;
+    return axios.post(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function updateUser(params = {}) {
+    let url = `${BACKEND_URL}/api/system/user`;
+    return axios.put(url, params).then(
+        result => checkResult(result)
+    );
+}
+
+function deleteUser(params = {}) {
+    let url = `${BACKEND_URL}/api/system/user`;
+    return axios.delete(url, params).then(
+        result => checkResult(result)
+    );
+}
+
 export default {
-    getUser
+    getUser,
+    insertUser,
+    updateUser,
+    deleteUser
 };

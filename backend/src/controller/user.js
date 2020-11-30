@@ -1,10 +1,11 @@
 'use strict';
 import * as User from '../business/user';
+import * as Validate from '../lib/validate';
 
 export async function getToken(req, res, next) {
     try {
-        let { username = '', password = '' } = req.body;
-        let response = await User.getToken({ username, password });
+        let {value} = await Validate.getToken(req.body);
+        let response = await User.getToken(value);
         res.sendJson({
             data: response,
         });
@@ -82,6 +83,45 @@ export async function getUser(req, res, next) {
             data: response.data,
             options: response.options,
             paging
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.sendError({ code: error.code, message: error.message || undefined });
+    }
+}
+
+export async function insertUser(req, res, next) {
+    try {
+        let { body } = req;
+        let response = await User.insertUser(body);
+        res.sendJson({
+            data: response.data
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.sendError({ code: error.code, message: error.message || undefined });
+    }
+}
+
+export async function updateUser(req, res, next) {
+    try {
+        let { body } = req;
+        let response = await User.updateUser(body);
+        res.sendJson({
+            data: response.data
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.sendError({ code: error.code, message: error.message || undefined });
+    }
+}
+
+export async function deleteUser(req, res, next) {
+    try {
+        let { data } = req.query;
+        let response = await User.deleteUser(data);
+        res.sendJson({
+            data: response.data
         });
     } catch (error) {
         console.error(error.message);
