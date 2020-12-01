@@ -31,9 +31,10 @@ class ModalInsert extends Component {
         this.closeModal();
     }
 
-    changeValue(e, data) {
+    changeValue(e, { type, name, value }) {
         let { dispatch } = this.props;
-        dispatch(CategoryAction.changeValue({ name: data.name, value: data.value }));
+        if(type === 'number') value *= 1;
+        dispatch(CategoryAction.changeValue({ name, value }));
     }
 
     onKeyPress(e) {

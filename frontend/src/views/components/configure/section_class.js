@@ -180,7 +180,8 @@ class SectionClass extends Component {
         });
     }
 
-    changeSchedule(e, { name, value }) {
+    changeSchedule(e, { type, name, value }) {
+        if(type === 'number') value *= 1;
         let { schedule } = this.state;
         schedule[name] = value;
         this.setState({ schedule });

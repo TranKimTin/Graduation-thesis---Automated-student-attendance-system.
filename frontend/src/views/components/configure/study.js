@@ -82,7 +82,7 @@ class Study extends Component {
         }
         if (type === 'edit') {
             data.push(...id);
-            dispatch(ConfigureAction.updateTeach(data));
+            dispatch(ConfigureAction.updateStudy(data));
         }
     }
 

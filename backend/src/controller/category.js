@@ -1,5 +1,6 @@
 'use strict';
 import * as Category from '../business/category';
+import * as Validate from '../lib/validate';
 
 /////////////////////CLASS////////////////////////////////////
 export async function getClass(req, res, next) {
@@ -13,7 +14,8 @@ export async function getClass(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Category.getClass({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await Category.getClass(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -28,7 +30,8 @@ export async function getClass(req, res, next) {
 export async function insertClass(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.insertClass(body);
+        let value = await Validate.insertCategory(body);
+        let response = await Category.insertClass(value);
         res.sendJson({
             data: response.data
         });
@@ -41,7 +44,8 @@ export async function insertClass(req, res, next) {
 export async function updateClass(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.updateClass(body);
+        let value = await Validate.updateCategory(body);
+        let response = await Category.updateClass(value);
         res.sendJson({
             data: response.data
         });
@@ -54,7 +58,8 @@ export async function updateClass(req, res, next) {
 export async function deleteClass(req, res, next) {
     try {
         let { data } = req.query;
-        let response = await Category.deleteClass(data);
+        let value = await Validate.validateListCode(data);
+        let response = await Category.deleteClass(value);
         res.sendJson({
             data: response.data
         });
@@ -76,7 +81,8 @@ export async function getStudent(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Category.getStudent({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await Category.getStudent(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -92,7 +98,8 @@ export async function getStudent(req, res, next) {
 export async function insertStudent(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.insertStudent(body);
+        let value = await Validate.insertStudent(body);
+        let response = await Category.insertStudent(value);
         res.sendJson({
             data: response.data
         });
@@ -105,7 +112,8 @@ export async function insertStudent(req, res, next) {
 export async function updateStudent(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.updateStudent(body);
+        let value = await Validate.updateStudent(body);
+        let response = await Category.updateStudent(value);
         res.sendJson({
             data: response.data
         });
@@ -118,7 +126,8 @@ export async function updateStudent(req, res, next) {
 export async function deleteStudent(req, res, next) {
     try {
         let { data } = req.query;
-        let response = await Category.deleteStudent(data);
+        let value = await Validate.validateListCode(data);
+        let response = await Category.deleteStudent(value);
         res.sendJson({
             data: response.data
         });
@@ -140,7 +149,8 @@ export async function getTeacher(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Category.getTeacher({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await Category.getTeacher(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -155,7 +165,8 @@ export async function getTeacher(req, res, next) {
 export async function insertTeacher(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.insertTeacher(body);
+        let value = await Validate.insertTeacher(body);
+        let response = await Category.insertTeacher(value);
         res.sendJson({
             data: response.data
         });
@@ -168,7 +179,8 @@ export async function insertTeacher(req, res, next) {
 export async function updateTeacher(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.updateTeacher(body);
+        let value = await Validate.updateTeacher(body);
+        let response = await Category.updateTeacher(value);
         res.sendJson({
             data: response.data
         });
@@ -181,7 +193,8 @@ export async function updateTeacher(req, res, next) {
 export async function deleteTeacher(req, res, next) {
     try {
         let { data } = req.query;
-        let response = await Category.deleteTeacher(data);
+        let value = await Validate.validateListCode(data);
+        let response = await Category.deleteTeacher(value);
         res.sendJson({
             data: response.data
         });
@@ -203,7 +216,8 @@ export async function getSubject(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Category.getSubject({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await Category.getSubject(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -218,7 +232,8 @@ export async function getSubject(req, res, next) {
 export async function insertSubject(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.insertSubject(body);
+        let value = await Validate.insertCategory(body);
+        let response = await Category.insertSubject(value);
         res.sendJson({
             data: response.data
         });
@@ -231,7 +246,8 @@ export async function insertSubject(req, res, next) {
 export async function updateSubject(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.updateSubject(body);
+        let value = await Validate.updateCategory(body);
+        let response = await Category.updateSubject(value);
         res.sendJson({
             data: response.data
         });
@@ -244,7 +260,8 @@ export async function updateSubject(req, res, next) {
 export async function deleteSubject(req, res, next) {
     try {
         let { data } = req.query;
-        let response = await Category.deleteSubject(data);
+        let value = await Validate.validateListCode(data);
+        let response = await Category.deleteSubject(value);
         res.sendJson({
             data: response.data
         });
@@ -266,7 +283,8 @@ export async function getYear(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Category.getYear({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await Category.getYear(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -281,7 +299,8 @@ export async function getYear(req, res, next) {
 export async function insertYear(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.insertYear(body);
+        let value = await Validate.insertCategory(body);
+        let response = await Category.insertYear(value);
         res.sendJson({
             data: response.data
         });
@@ -294,7 +313,8 @@ export async function insertYear(req, res, next) {
 export async function updateYear(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.updateYear(body);
+        let value = await Validate.updateCategory(body);
+        let response = await Category.updateYear(value);
         res.sendJson({
             data: response.data
         });
@@ -307,7 +327,8 @@ export async function updateYear(req, res, next) {
 export async function deleteYear(req, res, next) {
     try {
         let { data } = req.query;
-        let response = await Category.deleteYear(data);
+        let value = await Validate.validateListCode(data);
+        let response = await Category.deleteYear(value);
         res.sendJson({
             data: response.data
         });
@@ -329,7 +350,8 @@ export async function getSemester(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Category.getSemester({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await Category.getSemester(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -344,7 +366,8 @@ export async function getSemester(req, res, next) {
 export async function insertSemester(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.insertSemester(body);
+        let value = await Validate.insertCategory(body);
+        let response = await Category.insertSemester(value);
         res.sendJson({
             data: response.data
         });
@@ -357,7 +380,8 @@ export async function insertSemester(req, res, next) {
 export async function updateSemester(req, res, next) {
     try {
         let { body } = req;
-        let response = await Category.updateSemester(body);
+        let value = await Validate.updateCategory(body);
+        let response = await Category.updateSemester(value);
         res.sendJson({
             data: response.data
         });
@@ -370,7 +394,8 @@ export async function updateSemester(req, res, next) {
 export async function deleteSemester(req, res, next) {
     try {
         let { data } = req.query;
-        let response = await Category.deleteSemester(data);
+        let value = await Validate.validateListCode(data);
+        let response = await Category.deleteSemester(value);
         res.sendJson({
             data: response.data
         });

@@ -89,7 +89,6 @@ class Attendance extends Component {
         if (list.length > 0 && list[0].attendance) {
             date = list[0].attendance.map(item => moment(item.start_time).format('DD/MM/YY'));
         }
-        console.log(list)
         return (
             <Segment>
                 <Header> Điểm danh </Header>

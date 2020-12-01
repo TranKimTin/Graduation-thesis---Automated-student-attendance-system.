@@ -4,7 +4,7 @@ import * as Validate from '../lib/validate';
 
 export async function getToken(req, res, next) {
     try {
-        let {value} = await Validate.getToken(req.body);
+        let value = await Validate.getToken(req.body);
         let response = await User.getToken(value);
         res.sendJson({
             data: response,
@@ -77,7 +77,8 @@ export async function getUser(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await User.getUser({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await User.getUser(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -93,7 +94,8 @@ export async function getUser(req, res, next) {
 export async function insertUser(req, res, next) {
     try {
         let { body } = req;
-        let response = await User.insertUser(body);
+        let value = await Validate.insertUser(body);
+        let response = await User.insertUser(value);
         res.sendJson({
             data: response.data
         });
@@ -106,7 +108,8 @@ export async function insertUser(req, res, next) {
 export async function updateUser(req, res, next) {
     try {
         let { body } = req;
-        let response = await User.updateUser(body);
+        let value = await Validate.updateUser(body);
+        let response = await User.updateUser(value);
         res.sendJson({
             data: response.data
         });
@@ -119,7 +122,8 @@ export async function updateUser(req, res, next) {
 export async function deleteUser(req, res, next) {
     try {
         let { data } = req.query;
-        let response = await User.deleteUser(data);
+        let value = await Validate.validateListCode(data);
+        let response = await User.deleteUser(value);
         res.sendJson({
             data: response.data
         });

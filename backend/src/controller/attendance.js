@@ -1,5 +1,6 @@
 'use strict';
 import * as Attendance from '../business/attendance';
+import * as Validate from '../lib/validate';
 
 export async function getOptionSectionClass(req, res, next) {
     try {
@@ -30,7 +31,8 @@ export async function getAttendance(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Attendance.getAttendance({ pageSize, pageIndex, search, id_section_class });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search, id_section_class })
+        let response = await Attendance.getAttendance(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -48,7 +50,8 @@ export async function attendance(req, res, next) {
         let id_student = req.params.id_student * 1;
         let id_schedule = req.params.id_schedule * 1;
         let id_teacher = user.id_teacher || null;
-        let response = await Attendance.attendance({ id_student, id_schedule, id_teacher });
+        let value = await Validate.attendance({ id_student, id_schedule, id_teacher });
+        let response = await Attendance.attendance(value);
         res.sendJson({
             data: response.data,
             options: response.options

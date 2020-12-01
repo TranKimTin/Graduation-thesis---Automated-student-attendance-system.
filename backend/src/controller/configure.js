@@ -1,12 +1,13 @@
 'use strict';
 import * as Configure from '../business/configure';
 import moment from 'moment';
+import * as Validate from '../lib/validate';
 
 /////////////////////SECTION_CLASS//////////////////////
 export async function getSectionClass(req, res, next) {
     try {
         let pageSize = req.query.pageSize * 1 || 25;
-        let pageIndex = req.query.pageIndex * 1 || 2;
+        let pageIndex = req.query.pageIndex * 1 || 1;
         let search = req.query.search || '';
         let paging = {
             pageSize: pageSize,
@@ -14,7 +15,8 @@ export async function getSectionClass(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Configure.getSectionClass({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await Configure.getSectionClass(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -30,7 +32,7 @@ export async function getSectionClass(req, res, next) {
 export async function insertSectionClass(req, res, next) {
     try {
         let { body } = req;
-        let { schedule = [], sectionClass = [] } = body;
+        let { schedule, sectionClass } = await Validate.insertSectionClass(body);
         let lesson = {
             1: ['07:00', '07:50'],
             2: ['07:55', '08:45'],
@@ -81,7 +83,7 @@ export async function importSectionClass(req, res, next) {
 export async function updateSectionClass(req, res, next) {
     try {
         let { body } = req;
-        let { schedule = [], sectionClass = [] } = body;
+        let { schedule, sectionClass } = await Validate.updateSectionClass(body);
         let lesson = {
             1: ['07:00', '07:50'],
             2: ['07:55', '08:45'],
@@ -119,7 +121,8 @@ export async function updateSectionClass(req, res, next) {
 export async function deleteSectionClass(req, res, next) {
     try {
         let { data } = req.query;
-        let response = await Configure.deleteSectionClass(data);
+        let value = await Validate.validateListCode(data)
+        let response = await Configure.deleteSectionClass(value);
         res.sendJson({
             data: response.data
         });
@@ -141,7 +144,8 @@ export async function getStudy(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Configure.getStudy({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await Configure.getStudy(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -157,7 +161,8 @@ export async function getStudy(req, res, next) {
 export async function insertStudy(req, res, next) {
     try {
         let { body } = req;
-        let response = await Configure.insertStudy(body);
+        let value = await Validate.insertStudy(body);
+        let response = await Configure.insertStudy(value);
         res.sendJson({
             data: response.data
         });
@@ -170,7 +175,8 @@ export async function insertStudy(req, res, next) {
 export async function updateStudy(req, res, next) {
     try {
         let { body } = req;
-        let response = await Configure.updateStudy(body);
+        let value = await Validate.updateStudy(body);
+        let response = await Configure.updateStudy(value);
         res.sendJson({
             data: response.data
         });
@@ -184,7 +190,8 @@ export async function deleteStudy(req, res, next) {
     try {
         let { data } = req.query;
         data = JSON.parse(data);
-        let response = await Configure.deleteStudy(data);
+        let value = await Validate.deleteStudy(data);
+        let response = await Configure.deleteStudy(value);
         res.sendJson({
             data: response.data
         });
@@ -206,7 +213,8 @@ export async function getTeach(req, res, next) {
             totalPage: 0
         };
         search = `%${search}%`;
-        let response = await Configure.getTeach({ pageSize, pageIndex, search });
+        let value = await Validate.validateGet({ pageSize, pageIndex, search });
+        let response = await Configure.getTeach(value);
         paging.totalPage = Math.ceil(response.count / paging.pageSize);
         res.sendJson({
             data: response.data,
@@ -222,7 +230,8 @@ export async function getTeach(req, res, next) {
 export async function insertTeach(req, res, next) {
     try {
         let { body } = req;
-        let response = await Configure.insertTeach(body);
+        let value = await Validate.insertTeach(body);
+        let response = await Configure.insertTeach(value);
         res.sendJson({
             data: response.data
         });
@@ -235,7 +244,8 @@ export async function insertTeach(req, res, next) {
 export async function updateTeach(req, res, next) {
     try {
         let { body } = req;
-        let response = await Configure.updateTeach(body);
+        let value = await Validate.updateTeach(body);
+        let response = await Configure.updateTeach(value);
         res.sendJson({
             data: response.data
         });
@@ -249,7 +259,8 @@ export async function deleteTeach(req, res, next) {
     try {
         let { data } = req.query;
         data = JSON.parse(data);
-        let response = await Configure.deleteTeach(data);
+        let value = await Validate.deleteTeach(data);
+        let response = await Configure.deleteTeach(value);
         res.sendJson({
             data: response.data
         });
