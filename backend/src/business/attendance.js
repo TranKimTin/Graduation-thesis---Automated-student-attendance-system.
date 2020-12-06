@@ -3,19 +3,21 @@ import * as mysql from "../lib/mysql_connector";
 
 export async function getOptionSectionClass(args) {
     let { user } = args;
-    console.log(user.role_code, user.id_teacher)
+    console.log(user.role_code, user.id_teacher);
     let optionSectionClass;
-    if (user.role_code === 'ROLE_ADMIN') {
+    if (user.role_code === "ROLE_ADMIN") {
         optionSectionClass = await mysql.query(`SELECT section_class_name, id
                                                 FROM section_class
                                                 ORDER BY section_class_name`);
-    }
-    else {
-        optionSectionClass = await mysql.query(`SELECT sc.section_class_name, sc.id
+    } else {
+        optionSectionClass = await mysql.query(
+            `SELECT sc.section_class_name, sc.id
                                                 FROM section_class sc
                                                 JOIN teach t ON t.id_section_class = sc.id
                                                 WHERE t.id_teacher = ?
-                                                ORDER BY section_class_name`, [user.id_teacher]);
+                                                ORDER BY section_class_name`,
+            [user.id_teacher]
+        );
     }
     return { data: [], options: { optionSectionClass } };
 }
@@ -40,44 +42,95 @@ export async function getAttendance(args) {
                         JOIN section_class sc ON sc.id = study.id_section_class
                         WHERE sc.id = ? AND (st.student_name LIKE ? OR st.student_code LIKE ? )`;
     let [data, [{ count }]] = await Promise.all([
-        mysql.query(sql_select, [id_section_class, search, search, pageSize, (pageIndex - 1) * pageSize]),
-        mysql.query(sql_count, [id_section_class, search, search])
+        mysql.query(sql_select, [
+            id_section_class,
+            search,
+            search,
+            pageSize,
+            (pageIndex - 1) * pageSize,
+        ]),
+        mysql.query(sql_count, [id_section_class, search, search]),
     ]);
     for (let item of data) {
-        item.attendance = JSON.parse(item.attendance).filter(x => x.start_time !== null);
-        item.attendance.sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
+        item.attendance = JSON.parse(item.attendance).filter(
+            (x) => x.start_time !== null
+        );
+        item.attendance.sort(
+            (a, b) =>
+                new Date(a.start_time).getTime() -
+                new Date(b.start_time).getTime()
+        );
         for (let i of item.attendance) {
             if (!i.timestamp) {
-                i.status = 'x';
-                i.color = 'red';
-            }
-            else {
-                i.status = 'check';
+                i.status = "x";
+                i.color = "red";
+            } else {
+                i.status = "check";
                 let timestamp = new Date(i.timestamp).getTime() / 1000;
                 let startTime = new Date(i.start_time).getTime() / 1000;
                 let endTime = new Date(i.end_time).getTime() / 1000;
-                if (timestamp >= endTime) i.color = 'teal';
-                else if (timestamp < startTime + 30 * 60) i.color = 'green';
-                else if (timestamp < startTime + 60 * 60) i.color = 'orange';
-                else if (timestamp < endTime) i.color = 'brown';
+                if (timestamp >= endTime) i.color = "teal";
+                else if (timestamp < startTime + 30 * 60) i.color = "green";
+                else if (timestamp < startTime + 60 * 60) i.color = "orange";
+                else if (timestamp < endTime) i.color = "brown";
             }
         }
     }
     return {
         data,
-        count
+        count,
     };
 }
 
 export async function attendance(args) {
     let { id_student, id_schedule, id_teacher } = args;
-    let [{ count }] = await mysql.query(`SELECT count(1) AS count FROM attendance WHERE id_student = ? AND id_schedule = ? LIMIT 1`, [id_student, id_schedule]);
+    let [
+        { count },
+    ] = await mysql.query(
+        `SELECT count(1) AS count FROM attendance WHERE id_student = ? AND id_schedule = ? LIMIT 1`,
+        [id_student, id_schedule]
+    );
     if (count === 0) {
-        let [{ start_time }] = await mysql.query(`SELECT start_time FROM schedule WHERE id = ? LIMIT 1`, [id_schedule]);
-        if (new Date(start_time).getTime() / 1000 - 15 * 60 > new Date().getTime() / 1000) {
-            throw { message: 'Chưa đến thời gian học', code: 405 };
+        let [
+            { start_time },
+        ] = await mysql.query(
+            `SELECT start_time FROM schedule WHERE id = ? LIMIT 1`,
+            [id_schedule]
+        );
+        if (
+            new Date(start_time).getTime() / 1000 - 15 * 60 >
+            new Date().getTime() / 1000
+        ) {
+            throw { message: "Chưa đến thời gian học", code: 405 };
         }
-        await mysql.query(`INSERT INTO attendance(id_student, id_schedule, id_teacher) VALUES (?, ?, ?)`, [id_student, id_schedule, id_teacher]);
+        await mysql.query(
+            `INSERT INTO attendance(id_student, id_schedule, id_teacher) VALUES (?, ?, ?)`,
+            [id_student, id_schedule, id_teacher]
+        );
     }
     return [];
+}
+
+export async function getCurrentSectionClass(args) {
+    let { user } = args;
+    let sql_select = `SELECT teacher.teacher_name, sc.section_class_name, sb.subject_name, sd.start_time, sd.end_time, teach.id_teacher, teach.id_section_class
+                        FROM section_class sc
+                        JOIN schedule sd ON sd.id_section_class = sc.id
+                        JOIN subject sb ON sb.id = sc.id_subject
+                        JOIN teach ON teach.id_section_class = sc.id
+                        JOIN teacher ON teacher.id = teach.id_teacher
+                        WHERE teacher.id = ? AND (now() BETWEEN sd.start_time AND sd.end_time)
+                        LIMIT 1;`;
+    let data = await mysql.query(sql_select, [user.id_teacher]);
+    if (data.length === 1) {
+        data = data[0];
+        let sql_student = `SELECT id, student_code, student_name
+                            FROM student s
+                            JOIN study sd ON s.id = sd.id_student
+                            WHERE sd.id_section_class = ?
+                            ORDER BY student_name;`;
+        let student = await mysql.query(sql_student, [data.id_section_class]);
+        data.listStudent = student;
+    }
+    return data;
 }

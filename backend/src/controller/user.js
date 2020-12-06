@@ -17,7 +17,7 @@ export async function getToken(req, res, next) {
 
 export async function requireToken(req, res, next) {
     try {
-        let access_token = req.headers["x-access-token"];
+        let access_token = req.headers["x-access-token"] || req.query['x-access-token'];
         let user = await User.requireToken({ access_token });
         req.user = user;
         next();
@@ -29,7 +29,7 @@ export async function requireToken(req, res, next) {
 
 export async function logout(req, res, next) {
     try {
-        let access_token = req.headers["x-access-token"];
+        let access_token = req.headers["x-access-token"] || req.query['x-access-token'];
         let response = await User.logout({ access_token });
         res.sendJson({
             data: response,

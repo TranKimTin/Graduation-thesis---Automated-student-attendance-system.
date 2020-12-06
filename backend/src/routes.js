@@ -21,6 +21,7 @@ routes.get('/configure/teach', requireToken, requireRoleAdmin, Configure.getTeac
 
 routes.get('/attendance/option-section-class', requireToken, Attendance.getOptionSectionClass);
 routes.get('/attendance/:id_section_class', requireToken, Attendance.getAttendance);
+routes.get('/attendance/android/section-class', requireToken, requireRoleTeacher, Attendance.getCurrentSectionClass)
 
 routes.get('/system/user', requireToken, requireRoleAdmin, User.getUser);
 

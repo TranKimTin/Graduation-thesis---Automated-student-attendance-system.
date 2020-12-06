@@ -61,3 +61,16 @@ export async function attendance(req, res, next) {
         res.sendError({ code: error.code, message: error.message || undefined });
     }
 }
+
+export async function getCurrentSectionClass(req, res, next) {
+    try {
+        let { user } = req;
+        let response = await Attendance.getCurrentSectionClass({user});
+        res.sendJson({
+            data: response
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.sendError({ code: error.code, message: error.message || undefined });
+    }
+}

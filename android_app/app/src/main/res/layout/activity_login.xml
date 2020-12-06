@@ -4,35 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    tools:context=".LoginActivity"
+    android:orientation="vertical"
+    android:gravity="center">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvTeacherName"
-        android:text="GV"
-        android:padding="5dp"/>
+        android:text="Tên đăng nhập"
+        android:padding="10dp" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:id="@+id/edtUsername"
+        android:text="GV001"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvSubjectName"
-        android:text="Môn"
-        android:padding="5dp"/>
-    <TextView
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Mật khẩu" />
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvSiSo"
-        android:text="Sĩ số"
-        android:padding="5dp"/>
-    <TextView
+        android:padding="10dp"
+        android:inputType="textPassword"
+        android:id="@+id/edtPassword"
+        android:text="GV001"/>
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvTimer"
-        android:text="Thời gian còn lại"
-        android:padding="5dp"/>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lvStudent"
-        android:padding="5dp"/>
+        android:text="Đăng nhập"
+        android:id="@+id/btnLogin"
+        android:layout_marginTop="20dp"/>
 </LinearLayout>
