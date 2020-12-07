@@ -3,15 +3,13 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import body_parser from 'body-parser';
-import config from './config';  //
-// import AppError from './lib/app_error';
+import config from './config'; 
 import routes from './routes';
 import {init as mysql_init} from './lib/mysql_connector';
 import response from './lib/middlewares/res';
 import {error404} from './lib/middlewares/error_handler';
 
 global['config'] = config;
-// global['AppError'] = AppError;
 const app = express();
 
 mysql_init(config.mysql);

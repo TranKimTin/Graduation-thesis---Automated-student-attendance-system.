@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
 --
 -- Host: localhost    Database: diem_danh
 -- ------------------------------------------------------
--- Server version	8.0.22
+-- Server version	8.0.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,6 +27,7 @@ CREATE TABLE `attendance` (
   `id_student` int NOT NULL,
   `id_teacher` int DEFAULT NULL,
   `timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
+  `device` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_schedule`,`id_student`),
   KEY `id_student` (`id_student`),
   KEY `id_teacher` (`id_teacher`),
@@ -42,7 +43,7 @@ CREATE TABLE `attendance` (
 
 LOCK TABLES `attendance` WRITE;
 /*!40000 ALTER TABLE `attendance` DISABLE KEYS */;
-INSERT INTO `attendance` VALUES (78,9,NULL,'2020-11-30 10:50:11'),(78,10,NULL,'2020-11-30 15:17:34'),(78,11,NULL,'2020-11-30 15:17:35');
+INSERT INTO `attendance` VALUES (78,9,NULL,'2020-11-30 10:50:11',NULL),(78,10,NULL,'2020-11-30 15:17:34',NULL),(78,11,NULL,'2020-11-30 15:17:35',NULL);
 /*!40000 ALTER TABLE `attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-30 16:59:47
+-- Dump completed on 2020-12-06 16:50:47

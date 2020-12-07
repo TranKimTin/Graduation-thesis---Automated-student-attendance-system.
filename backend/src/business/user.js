@@ -10,7 +10,7 @@ export async function getToken(args) {
                                     LEFT JOIN teacher t ON u.username = t.teacher_code
                                     JOIN role r ON r.id = u.role 
                                     WHERE username = ? AND password = ? 
-                                    limit 1`, [username, md5(password)]);
+                                    limit 1`, [username, md5(username + password)]);
     if (user.length === 0) {
         throw { message: 'Tên đăng nhập hoặc mật khẩu không đúng', code: 402 };
     }
@@ -99,7 +99,7 @@ export async function insertUser(args) {
         return a;
     }, {})
     for (let item of args) {
-        item[1] = md5(item[1]);
+        item[1] = md5(item[0] + item[1]);
         item[2] = role_id[item[2]];  //item[2]: role_code
     }
     return await mysql.query(`INSERT INTO user(username, password, role) VALUES ?`, [args]);
@@ -107,7 +107,7 @@ export async function insertUser(args) {
 
 export async function updateUser(args) {
     let [{ id }] = await mysql.query(`SELECT id FROM role where role_code = ? LIMIT 1`, [args[2]]);
-    args[1] = md5(args[1]);
+    args[1] = md5(args[0] + args[1]);
     args[2] = id;
     return await mysql.query(`UPDATE user SET 
                                 username = ?, password = ?, role = ?

@@ -104,7 +104,7 @@ export async function getTeacher(args) {
 }
 
 export async function insertTeacher(args) {
-    let account = args.map(item => [item[0], md5(item[0]), 2]);
+    let account = args.map(item => [item[0], md5(item[0] + item[0]), 2]);
     await mysql.query(`INSERT INTO teacher(teacher_code, teacher_name, date_of_birth, gender) VALUES ?`, [args]);
     await mysql.query(`INSERT INTO user(username, password, role) VALUE ?`, [account]);
     return [];

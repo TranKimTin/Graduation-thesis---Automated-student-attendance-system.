@@ -16,7 +16,7 @@ export async function getOptionSectionClass(req, res, next) {
     } catch (error) {
         console.error(error.message);
         res.sendError({ code: error.code, message: error.message || undefined });
-    }
+    }   
 }
 
 export async function getAttendance(req, res, next) {
