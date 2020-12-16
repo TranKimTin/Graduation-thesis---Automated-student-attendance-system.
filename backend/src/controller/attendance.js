@@ -74,3 +74,16 @@ export async function getCurrentSectionClass(req, res, next) {
         res.sendError({ code: error.code, message: error.message || undefined });
     }
 }
+
+export async function attendanceListStudent(req, res, next) {
+    try {
+        let { user, body } = req;
+        let response = await Attendance.attendanceListStudent({user, listStudent: body});
+        res.sendJson({
+            data: response
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.sendError({ code: error.code, message: error.message || undefined });
+    }
+}

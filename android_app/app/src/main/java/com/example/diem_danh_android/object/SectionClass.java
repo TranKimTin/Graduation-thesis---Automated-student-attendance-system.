@@ -11,9 +11,10 @@ public class SectionClass {
     private Date end_time;
     private int id_teacher;
     private int id_section_class;
+    private int id_schedule;
     private List<Student> listStudent;
 
-    public SectionClass(String section_class_name, String subject_name, String teacher_name, Date start_time, Date end_time, int id_teacher, int id_section_class, List<Student> listStudent) {
+    public SectionClass(String section_class_name, String subject_name, String teacher_name, Date start_time, Date end_time, int id_teacher, int id_section_class, int id_schedule, List<Student> listStudent) {
         this.section_class_name = section_class_name;
         this.subject_name = subject_name;
         this.teacher_name = teacher_name;
@@ -21,10 +22,19 @@ public class SectionClass {
         this.end_time = end_time;
         this.id_teacher = id_teacher;
         this.id_section_class = id_section_class;
+        this.id_schedule = id_schedule;
         this.listStudent = listStudent;
     }
 
     public SectionClass() {
+    }
+
+    public int getId_schedule() {
+        return id_schedule;
+    }
+
+    public void setId_schedule(int id_schedule) {
+        this.id_schedule = id_schedule;
     }
 
     public String getTeacher_name() {

@@ -33,7 +33,6 @@ export async function getToken(args) {
             id_teacher: user.id_teacher
         };
         let access_token = jwt.sign(u, config.jwt.secret_key, config.jwt.options);
-        console.log(username, access_token)
         await mysql.query(`INSERT INTO access_token(username,token) VALUES (?,?)`, [username, access_token]);
         return { access_token };
     }

@@ -1,4 +1,5 @@
 "use strict";
+import { values } from "lodash";
 import * as mysql from "../lib/mysql_connector";
 
 export async function getOptionSectionClass(args) {
@@ -113,7 +114,7 @@ export async function attendance(args) {
 
 export async function getCurrentSectionClass(args) {
     let { user } = args;
-    let sql_select = `SELECT teacher.teacher_name, sc.section_class_name, sb.subject_name, sd.start_time, sd.end_time, teach.id_teacher, teach.id_section_class
+    let sql_select = `SELECT sd.id AS id_schedule, teacher.teacher_name, sc.section_class_name, sb.subject_name, sd.start_time, sd.end_time, teach.id_teacher, teach.id_section_class
                         FROM section_class sc
                         JOIN schedule sd ON sd.id_section_class = sc.id
                         JOIN subject sb ON sb.id = sc.id_subject
@@ -124,13 +125,50 @@ export async function getCurrentSectionClass(args) {
     let data = await mysql.query(sql_select, [user.id_teacher]);
     if (data.length === 1) {
         data = data[0];
-        let sql_student = `SELECT id, student_code, student_name
+        let sql_student = `SELECT s.id, s.student_code, s.student_name, atd.timestamp
                             FROM student s
-                            JOIN study sd ON s.id = sd.id_student
-                            WHERE sd.id_section_class = ?
-                            ORDER BY student_name;`;
+                            JOIN study std ON s.id = std.id_student
+                            JOIN schedule sd ON std.id_section_class = sd.id_section_class
+                            LEFT JOIN attendance atd ON atd.id_student = s.id AND atd.id_schedule = sd.id
+                            WHERE std.id_section_class = ? AND (now() BETWEEN sd.start_time AND sd.end_time)
+                            ORDER BY timestamp desc, student_name asc;`;
         let student = await mysql.query(sql_student, [data.id_section_class]);
+        for(let item of student){
+            item.color = '#000000';
+            if(item.timestamp){
+                let timestamp = new Date(item.timestamp).getTime() / 1000;
+                let startTime = new Date(data.start_time).getTime() / 1000;
+                let endTime = new Date(data.end_time).getTime() / 1000;
+                if (timestamp >= endTime) i.color = "#008080";
+                else if (timestamp < startTime + 30 * 60) item.color = "#008000";
+                else if (timestamp < startTime + 60 * 60) item.color = "#FFFF00";
+                else if (timestamp < endTime) item.color = "#800000";
+            }
+        }
         data.listStudent = student;
+
+    }
+    else{
+        data = {
+            teacher_name: user.name,
+            subject_name: 'Hiện tại không có lớp học phần nào đang học',
+            listStudent: []
+        };
     }
     return data;
+}
+
+export async function attendanceListStudent(args){
+    console.log(args)
+    let {user, listStudent} = args;
+    for(let item of listStudent){
+        item = item.split('-').map(item => item.trim());
+        let [{id}] = await mysql.query(`SELECT id FROM student WHERE student_code = ?`, [item[0]]);
+        item[0] = id;
+        let [{count}] = await mysql.query(`SELECT count(1) AS count FROM attendance WHERE id_student = ? AND id_schedule = ? LIMIT 1`, [item[0], item[1]]);
+        if(count === 0){
+            await mysql.query(`INSERT INTO attendance(id_student, id_schedule, device, id_teacher) VALUES (?,?,?,?)`,[item[0], item[1], item[2], user.id_teacher]);
+        }
+    }
+    return {};
 }

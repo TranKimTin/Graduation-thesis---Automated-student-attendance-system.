@@ -27,6 +27,18 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/tvStartTime"
+        android:text="Giờ vào lớp:"
+        android:padding="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvEndTime"
+        android:text="Giờ kết thúc:"
+        android:padding="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/tvTimer"
         android:text="Thời gian còn lại"
         android:padding="5dp"/>

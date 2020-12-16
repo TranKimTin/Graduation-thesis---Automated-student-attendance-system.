@@ -31,6 +31,8 @@ routes.post('/category/teacher', requireToken, requireRoleAdmin, Category.insert
 routes.post('/category/subject', requireToken, requireRoleAdmin, Category.insertSubject);
 routes.post('/category/year', requireToken, requireRoleAdmin, Category.insertYear);
 routes.post('/category/semester', requireToken, requireRoleAdmin, Category.insertSemester);
+routes.post('/attendance/android/attendance-list-student', requireToken, requireRoleTeacher, Attendance.attendanceListStudent)
+
 
 routes.post('/configure/section-class', requireToken, requireRoleAdmin, Configure.insertSectionClass);
 routes.post('/configure/import-section-class', requireToken, requireRoleAdmin, Configure.importSectionClass);
