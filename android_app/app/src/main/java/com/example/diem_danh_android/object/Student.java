@@ -9,6 +9,15 @@ public class Student{
     private String student_name;
     private Date timestamp;
     private String color;
+    private boolean warning;
+
+    public boolean isWarning() {
+        return warning;
+    }
+
+    public void setWarning(boolean warning) {
+        this.warning = warning;
+    }
 
     public int getId() {
         return id;
@@ -53,12 +62,13 @@ public class Student{
     public Student() {
     }
 
-    public Student(int id, String student_code, String student_name, Date timestamp, String color) {
+    public Student(int id, String student_code, String student_name, Date timestamp, String color, boolean warning) {
         this.id = id;
         this.student_code = student_code;
         this.student_name = student_name;
         this.timestamp = timestamp;
         this.color = color;
+        this.warning = warning;
     }
 
     public String toString(){
@@ -69,7 +79,7 @@ public class Student{
             res += simpleDateFormat.format(timestamp);
         }
         else{
-            res += 'X';
+            res += "Vắng";
         }
         return res;
     }
