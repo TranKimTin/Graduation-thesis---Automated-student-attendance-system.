@@ -13,8 +13,9 @@ public class SectionClass {
     private int id_section_class;
     private int id_schedule;
     private List<Student> listStudent;
+    private Date current_time;
 
-    public SectionClass(String section_class_name, String subject_name, String teacher_name, Date start_time, Date end_time, int id_teacher, int id_section_class, int id_schedule, List<Student> listStudent) {
+    public SectionClass(String section_class_name, String subject_name, String teacher_name, Date start_time, Date end_time, int id_teacher, int id_section_class, int id_schedule, List<Student> listStudent, Date current_time) {
         this.section_class_name = section_class_name;
         this.subject_name = subject_name;
         this.teacher_name = teacher_name;
@@ -24,9 +25,18 @@ public class SectionClass {
         this.id_section_class = id_section_class;
         this.id_schedule = id_schedule;
         this.listStudent = listStudent;
+        this.current_time = current_time;
     }
 
     public SectionClass() {
+    }
+
+    public Date getCurrent_time() {
+        return current_time;
+    }
+
+    public void setCurrent_time(Date current_time) {
+        this.current_time = current_time;
     }
 
     public int getId_schedule() {

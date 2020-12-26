@@ -40,6 +40,19 @@ export async function logout(req, res, next) {
     }
 }
 
+export async function requireRoleStudent(req, res, next) {
+    try {
+        let { user = {} } = req;
+        if (user.role_code !== 'ROLE_ADMIN' && user.role_code !== 'ROLE_TEACHER' && user.role_code !== 'ROLE_STUDENT') {
+            throw { message: 'Bạn không có quyền', code: 403 };
+        }
+        next();
+    } catch (error) {
+        console.error(error.message);
+        res.sendError({ code: error.code, message: error.message });
+    }
+}
+
 export async function requireRoleTeacher(req, res, next) {
     try {
         let { user = {} } = req;

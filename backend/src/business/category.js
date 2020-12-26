@@ -69,7 +69,10 @@ export async function insertStudent(args) {
     for (let item of args) {
         item[4] = class_id[item[4]];  //item[4]: class_code
     }
-    return await mysql.query(`INSERT INTO student(student_code, student_name, date_of_birth, gender, class_id) VALUES ?`, [args]);
+    let account = args.map(item => [item[0], md5(item[0] + item[0]), 3]);
+    await mysql.query(`INSERT INTO student(student_code, student_name, date_of_birth, gender, class_id) VALUES ?`, [args]);
+    await mysql.query(`INSERT INTO user(username, password, role) VALUE ?`, [account]);
+    return [];
 }
 
 export async function updateStudent(args) {
@@ -81,7 +84,8 @@ export async function updateStudent(args) {
 }
 
 export async function deleteStudent(args) {
-    return await mysql.query(`DELETE FROM student WHERE student_code IN (?)`, [args]);
+    await mysql.query(`DELETE FROM student WHERE student_code IN (?)`, [args]);
+    return await mysql.query(`DELETE FROM user WHERE username IN (?)`, [args]);
 }
 
 ////////////////////////TEACHER/////////////////////////////////////

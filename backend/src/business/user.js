@@ -5,9 +5,10 @@ import jwt from 'jsonwebtoken';
 
 export async function getToken(args) {
     let { username, password } = args;
-    let user = await mysql.query(`SELECT username, t.id AS id_teacher, teacher_name, teacher_code, role_name, role_code
+    let user = await mysql.query(`SELECT username, t.id AS id_teacher, teacher_name, teacher_code, role_name, role_code, s.id AS id_student
                                     FROM user u 
                                     LEFT JOIN teacher t ON u.username = t.teacher_code
+                                    LEFT JOIN student s ON u.username = s.student_code
                                     JOIN role r ON r.id = u.role 
                                     WHERE username = ? AND password = ? 
                                     limit 1`, [username, md5(username + password)]);
@@ -30,7 +31,8 @@ export async function getToken(args) {
             code: user.teacher_code,
             role_name: user.role_name,
             role_code: user.role_code,
-            id_teacher: user.id_teacher
+            id_teacher: user.id_teacher,
+            id_student: user.id_student
         };
         let access_token = jwt.sign(u, config.jwt.secret_key, config.jwt.options);
         await mysql.query(`INSERT INTO access_token(username,token) VALUES (?,?)`, [username, access_token]);

@@ -20,7 +20,7 @@ import com.google.gson.JsonObject;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     public static DiemDanhApi api = new Retrofit.Builder()
-            .baseUrl("http://192.168.1.11:3001")
+            .baseUrl("http://192.168.43.104:3001")
             .addConverterFactory(GsonConverterFactory.create())
             .build().create(DiemDanhApi.class);
     private Button btnLogin;

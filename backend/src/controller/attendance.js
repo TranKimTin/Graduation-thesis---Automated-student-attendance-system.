@@ -5,9 +5,6 @@ import * as Validate from '../lib/validate';
 export async function getOptionSectionClass(req, res, next) {
     try {
         let { user } = req;
-        if (!(user.role_code === 'ROLE_ADMIN' || user.role_code === 'ROLE_TEACHER')) {
-            throw { message: 'Không có quyền truy cập', code: 403 }
-        }
         let response = await Attendance.getOptionSectionClass({ user });
         res.sendJson({
             data: response.data,

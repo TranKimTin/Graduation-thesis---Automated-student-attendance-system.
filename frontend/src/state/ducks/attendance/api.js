@@ -17,7 +17,7 @@ function getOptionSectionClass(params = {}) {
 
 function getAttendance(params = {}) {
     let url = `${BACKEND_URL}/api/attendance/${params.id_section_class}`;
-    return axios.get(url).then(
+    return axios.get(url, params).then(
         result => checkResult(result)
     );
 }

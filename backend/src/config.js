@@ -15,7 +15,7 @@ export default {
     jwt: {
         secret_key: '10 điểm đồ án',
         options: {
-            expiresIn: 60*60, //giay
+            expiresIn: 60*60*24, //giay
             algorithm: 'HS256'
         }
     } 

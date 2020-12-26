@@ -62,7 +62,7 @@ class Attendance extends Component {
         this.setState({
             id_section_class
         });
-        dispatch(AttendanceAction.getAttendance({ id_section_class }));
+        dispatch(AttendanceAction.getAttendance({ id_section_class, pageSize: 100 }));
     }
 
     attendance(id_student, id_schedule) {
@@ -87,7 +87,7 @@ class Attendance extends Component {
         }));
         let date = [];
         if (list.length > 0 && list[0].attendance) {
-            date = list[0].attendance.map(item => moment(item.start_time).format('DD/MM/YY'));
+            date = list[0].attendance;
         }
         return (
             <Segment>
@@ -132,7 +132,15 @@ class Attendance extends Component {
                                     Mã sinh viên
                                 </Table.HeaderCell>
                                 {date.map((item, i) => (
-                                    <Table.HeaderCell key={i} width={1}>{item}</Table.HeaderCell>
+                                    <Table.HeaderCell key={i} width={1}>
+                                        <Popup
+                                            trigger={<div>{moment(item.start_time).format('DD/MM/YY')}</div>}
+                                            content={<div>
+                                                        {moment(item.start_time).format('HH:mm')} - {moment(item.end_time).format('HH:mm')}
+                                                    </div>}
+                                            basic
+                                        />
+                                    </Table.HeaderCell>
                                 ))}
                             </Table.Row>
                         </Table.Header>
@@ -151,7 +159,11 @@ class Attendance extends Component {
                                                         name={i.status}
                                                         color={i.color}
                                                         onClick={() => { this.attendance(item.id_student, i.id_schedule) }} />}
-                                                    content={<div><div>{i.timestamp ? moment(i.timestamp).format('DD/MM/YY HH:mm:SS') : 'Vắng'}</div><div></div>{i.teacher_name}</div>}
+                                                    content={<div>
+                                                                <div>{i.timestamp ? moment(i.timestamp).format('DD/MM/YY HH:mm:SS') : 'Vắng'}</div>
+                                                                <div></div>{i.teacher_name}
+                                                                <div></div>{i.device}
+                                                            </div>}
                                                     basic
                                                 />
 

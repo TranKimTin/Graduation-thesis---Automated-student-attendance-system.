@@ -78,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
                         final StudentAdapter adapter = new StudentAdapter(getApplicationContext(), R.layout.item_list_student, (ArrayList<Student>) listStudent);
                         lvStudent.setAdapter(adapter);
                         scanBluetooth();
-                        new CountDownTimer(sc.getEnd_time().getTime() - new Date().getTime(), 1000) {
+                        new CountDownTimer(sc.getEnd_time().getTime() - sc.getCurrent_time().getTime(), 1000) {
                             public void onTick(long millisUntilFinished) {
-                                long hour = (sc.getEnd_time().getTime() - new Date().getTime()) / 1000;
+                                long hour = millisUntilFinished / 1000;
                                 long second = hour % 60;
                                 hour /= 60;
                                 long minute = hour % 60;

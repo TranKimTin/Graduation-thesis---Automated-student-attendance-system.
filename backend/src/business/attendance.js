@@ -4,20 +4,30 @@ import * as mysql from "../lib/mysql_connector";
 
 export async function getOptionSectionClass(args) {
     let { user } = args;
-    console.log(user.role_code, user.id_teacher);
+    console.log(user);
     let optionSectionClass;
     if (user.role_code === "ROLE_ADMIN") {
         optionSectionClass = await mysql.query(`SELECT section_class_name, id
                                                 FROM section_class
                                                 ORDER BY section_class_name`);
-    } else {
+    } else if (user.role_code === "ROLE_TEACHER") {
         optionSectionClass = await mysql.query(
             `SELECT sc.section_class_name, sc.id
-                                                FROM section_class sc
-                                                JOIN teach t ON t.id_section_class = sc.id
-                                                WHERE t.id_teacher = ?
-                                                ORDER BY section_class_name`,
+                FROM section_class sc
+                JOIN teach t ON t.id_section_class = sc.id
+                WHERE t.id_teacher = ?
+                ORDER BY section_class_name`,
             [user.id_teacher]
+        );
+    }
+    else if (user.role_code === "ROLE_STUDENT"){
+        optionSectionClass = await mysql.query(
+            `SELECT sc.section_class_name, sc.id
+                FROM section_class sc
+                JOIN study s ON s.id_section_class = sc.id
+                WHERE s.id_student = ?
+                ORDER BY section_class_name`,
+            [user.id_student]
         );
     }
     return { data: [], options: { optionSectionClass } };
@@ -25,7 +35,7 @@ export async function getOptionSectionClass(args) {
 
 export async function getAttendance(args) {
     let { pageSize, pageIndex, search, id_section_class } = args;
-    let sql_select = `SELECT st.student_code, st.student_name, st.id AS id_student, JSON_ARRAYAGG(JSON_OBJECT("start_time", sd.start_time, "end_time", sd.end_time, "timestamp", atd.timestamp, "id_schedule", sd.id, "teacher_name", teacher.teacher_name)) AS attendance
+    let sql_select = `SELECT st.student_code, st.student_name, st.id AS id_student, JSON_ARRAYAGG(JSON_OBJECT("device", atd.device, "start_time", sd.start_time, "end_time", sd.end_time, "timestamp", atd.timestamp, "id_schedule", sd.id, "teacher_name", teacher.teacher_name)) AS attendance
                         FROM section_class sc
                         LEFT JOIN study ON sc.id = study.id_section_class
                         LEFT JOIN student st ON st.id = study.id_student
@@ -52,6 +62,7 @@ export async function getAttendance(args) {
         ]),
         mysql.query(sql_count, [id_section_class, search, search]),
     ]);
+    let devides = {};
     for (let item of data) {
         item.attendance = JSON.parse(item.attendance).filter(
             (x) => x.start_time !== null
@@ -62,6 +73,10 @@ export async function getAttendance(args) {
                 new Date(b.start_time).getTime()
         );
         for (let i of item.attendance) {
+            if (i.device) {
+                devides[i.device] = devides[i.device] || {};
+                devides[i.device][item.id_student] = 1;
+            }
             if (!i.timestamp) {
                 i.status = "x";
                 i.color = "red";
@@ -75,6 +90,16 @@ export async function getAttendance(args) {
                 else if (timestamp < startTime + 60 * 60) i.color = "orange";
                 else if (timestamp < endTime) i.color = "brown";
             }
+        }
+    }
+    for (let item of data) {
+        for(let i of item.attendance){ 
+            if (i.device) {
+                if (Object.keys(devides[i.device]).length > 1) {
+                    i.color = "yellow";
+                    i.status = "warning circle"
+                }
+            }  
         }
     }
     return {
@@ -125,6 +150,7 @@ export async function getCurrentSectionClass(args) {
     let data = await mysql.query(sql_select, [user.id_teacher]);
     if (data.length === 1) {
         data = data[0];
+        data.current_time = new Date();
         let sql_student = `SELECT s.id, s.student_code, s.student_name, atd.timestamp, atd.device
                             FROM student s
                             JOIN study std ON s.id = std.id_student
